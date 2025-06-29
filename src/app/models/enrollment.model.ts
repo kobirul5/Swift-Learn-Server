@@ -1,0 +1,37 @@
+import { Schema, model } from 'mongoose';
+import { IEnrollment } from '../interfaces/enrollment.interface';
+
+
+
+const enrollmentSchema: Schema<IEnrollment> = new Schema(
+    {
+        student: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
+        progress: [
+            {
+                course: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Course',
+                    required: true,
+                },
+                completedLectures: [
+                    {
+                        type: Schema.Types.ObjectId,
+                        ref: 'Lecture',
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        timestamps: true,
+    }
+);
+
+// Model Export
+export const Enrollment = model('Enrollment', enrollmentSchema);
+
+
