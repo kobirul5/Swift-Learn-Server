@@ -1,11 +1,11 @@
-import express, { Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { User } from '../models/user.model';
 
-export const userRouter = express.Router()
+
 
 
 // get All users
-userRouter.post('/', async(req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response) => {
     const body = req.body;
     console.log(body)
 
@@ -17,11 +17,11 @@ userRouter.post('/', async(req: Request, res: Response) => {
         massage: "Create User Successfully",
         data
     })
-})
+}
 
 
 // get All users
-userRouter.get('/', async(req: Request, res: Response) => {
+const getAllUsers = async (req: Request, res: Response) => {
 
     const data = await User.find()
 
@@ -30,5 +30,7 @@ userRouter.get('/', async(req: Request, res: Response) => {
         massage: "Get All User Successfully",
         data
     })
-})
+}
 
+
+export { getAllUsers, createUser }

@@ -1,10 +1,10 @@
-import express, { Request, Response } from 'express'
+import { Request, Response } from 'express'
 import { Course } from '../models/course.model'
 
-export const courseRoute = express.Router()
 
 
-courseRoute.post('/', async(req: Request, res: Response)=>{
+
+const createCourse = async(req: Request, res: Response)=>{
     const course = req.body;
     const data = await Course.create(course)
      res.status(200).json({
@@ -12,8 +12,8 @@ courseRoute.post('/', async(req: Request, res: Response)=>{
         massage: "Get All Course Successfully",
         data
     })
-})
-courseRoute.get('/', async(req: Request, res: Response)=>{
+}
+const getAllCourse = async(req: Request, res: Response)=>{
 
     const data = await Course.find()
      res.status(200).json({
@@ -21,4 +21,6 @@ courseRoute.get('/', async(req: Request, res: Response)=>{
         massage: "Get All Course Successfully",
         data
     })
-})
+}
+
+export {getAllCourse, createCourse}
