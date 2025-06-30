@@ -28,10 +28,11 @@ const enrollmentSchema: Schema<IEnrollment> = new Schema(
     },
     {
         timestamps: true,
+        versionKey: false,
     }
 );
 
-// Model Export
+
 export const Enrollment = model('Enrollment', enrollmentSchema);
 
 
