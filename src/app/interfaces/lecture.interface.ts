@@ -5,5 +5,5 @@ export interface ILecture extends Document {
   course: mongoose.Types.ObjectId;
   title: string;
   videoUrl?: string;
-  pdfNotes: string[];
+  notes: string[];
 }
