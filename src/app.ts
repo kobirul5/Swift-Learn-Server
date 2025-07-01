@@ -1,10 +1,15 @@
 import express, { Application, NextFunction, Request, Response } from "express"
+import cors from 'cors';
 import { userRouter } from "./app/router/user.router"
 import { enrollmentRoute } from "./app/router/enrollment.router"
 import { courseRoute } from "./app/router/course.router"
-const app: Application = express()
-app.use(express.json())
 
+
+
+const app: Application = express()
+
+app.use(cors())
+app.use(express.json())
 
 
 

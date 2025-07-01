@@ -10,12 +10,27 @@ const createUser = async (req: Request, res: Response) => {
     console.log(body)
 
     const data = await User.create(body)
-
-
     res.status(200).json({
         success: true,
         massage: "Create User Successfully",
         data
+    })
+}
+
+
+// get user by email
+const getUserByEmail = async (req: Request, res: Response) => {
+    const email = req.params.email;
+
+    const user = await User.findOne({ email })
+    if (!user) {
+        res.status(404).json({ success: false, message: 'User not found' })
+        return
+    }
+    res.status(200).json({
+        success: true,
+        massage: "Get User by Email Successfully",
+        data: user
     })
 }
 
@@ -33,4 +48,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 }
 
 
-export { getAllUsers, createUser }
+
+
+
+export { getAllUsers, createUser, getUserByEmail }
