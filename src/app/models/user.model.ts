@@ -8,36 +8,34 @@ const userSchema = new Schema<IUser>(
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
-    image: {type: String, default: ""},
+    image: { type: String, default: "" },
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
 
-  }, 
+  },
   {
     timestamps: true,
     versionKey: false
   }
 );
 
-
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-userSchema.methods.isPasswordCorrect = async function(password:string){
- return await bcrypt.compare(password, this.password)
+userSchema.methods.isPasswordCorrect = async function (password: string) {
+  return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.generateAccessToken = function(){
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
-      _id:this._id,
+      _id: this._id,
       email: this.email,
       role: this.role
     },
-     process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: '2d'}
+    process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '2d' }
   )
 }
 

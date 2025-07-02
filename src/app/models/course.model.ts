@@ -5,7 +5,7 @@ const courseSchema = new Schema<ICourse>(
     {
         title: { type: String, required: true },
         description: String,
-        price: Number,
+        price: {type: Number, required: true},
         thumbnail: String,
         modules: [
             {

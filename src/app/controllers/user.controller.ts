@@ -1,13 +1,20 @@
 import { Request, Response } from 'express'
 import { User } from '../models/user.model';
+import { ApiError } from '../utils/ApiError';
 
 
 
 
-// get All users
+
+// Create User 
 const createUser = async (req: Request, res: Response) => {
     const body = req.body;
-    console.log(body)
+    const {name, email, password,} = req.body;
+
+    if(name === "" || email === "" || password === ""){
+        throw new ApiError(500)
+    }
+
 
     const data = await User.create(body)
     res.status(200).json({
