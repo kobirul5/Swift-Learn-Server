@@ -47,7 +47,22 @@ const createUser = async (req: Request, res: Response) => {
         throw new ApiError(500, "Something is wrong while create user")
     }
 
-    res.status(200).json({
+
+    const accessToken = await generateAccessToken(user._id as string)
+
+
+    // cookie
+    const options = {
+        httpOnly: true,
+        secure: false
+    }
+
+
+
+    res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .json({
         success: true,
         massage: "Create User Successfully",
         data: createdUser
@@ -76,18 +91,19 @@ const loginUser = async (req: Request, res: Response) => {
     // token
     const accessToken = await generateAccessToken(user._id as string)
 
+    console.log(accessToken,"---------------usercrontrool")
     const loginUser = await User.findById(user._id).select(
         "-password"
     )
 
     if (!loginUser) {
-        throw new ApiError(500, "Something is wrong while create user")
+        throw new ApiError(500, "Something is wrong while login user")
     }
 
     // cookie
     const options = {
-        httpOnly: true,
-        secure: false
+        httpOnly: false,
+        secure: true
     }
 
     res
@@ -96,7 +112,8 @@ const loginUser = async (req: Request, res: Response) => {
         .json({
             success: true,
             massage: "User Login Successfully",
-            data: loginUser
+            data: loginUser,
+            accessToken
         })
 }
 
@@ -104,7 +121,7 @@ const loginUser = async (req: Request, res: Response) => {
 const logout = async (req: Request, res: Response) => {
     const options = {
         httpOnly: true,
-        secure: false
+        secure: true
     }
 
     res

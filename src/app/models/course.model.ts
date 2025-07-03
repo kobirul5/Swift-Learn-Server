@@ -4,7 +4,7 @@ import { ICourse } from '../interfaces/course.interface';
 const courseSchema = new Schema<ICourse>(
     {
         title: { type: String, required: true },
-        description: String,
+        description:{type:String, required:true},
         price: {type: Number, required: true},
         thumbnail: String,
         modules: [
