@@ -15,7 +15,7 @@ const enrollmentSchema: Schema<IEnrollment> = new Schema(
                 course: {
                     type: Schema.Types.ObjectId,
                     ref: 'Course',
-                    required: true,
+                    required: true, // TODO: need out side course and remove progress and add enrolledAt
                 },
                 completedLectures: [
                     {
@@ -36,3 +36,10 @@ const enrollmentSchema: Schema<IEnrollment> = new Schema(
 export const Enrollment = model('Enrollment', enrollmentSchema);
 
 
+// enrollmentDate
+
+
+// new schema  lectureProgress 
+//*
+// student, lecture, completedAT,
+// /

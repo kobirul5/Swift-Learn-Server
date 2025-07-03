@@ -1,3 +1,4 @@
+
 import { NextFunction, Request, Response } from "express";
 import { ApiError } from "../utils/ApiError";
 import jwt, { JwtPayload } from "jsonwebtoken";
@@ -16,9 +17,7 @@ export const verifyJWT = async (
   next: NextFunction
 ) => {
   try {
-    const token =
-      req.cookies?.accessToken ||
-      req.header("Authorization")?.replace("Bearer ", "");
+    const token = req.cookies?.accessToken
 
     if (!token) {
       return next(new ApiError(401, "Unauthorized request: No token found"));
@@ -30,12 +29,12 @@ export const verifyJWT = async (
     ) as ITokenPayload;
 
     const user = await User.findById(decoded._id).select("-password");
-
+    console.log("console form midd-----------", user)
     if (!user) {
       return next(new ApiError(401, "Invalid access token"));
     }
 
-    req.user = user; // You must extend Express.Request to support this
+    req.user = user;
 
     next();
   } catch (error) {

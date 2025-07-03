@@ -9,7 +9,7 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
     image: { type: String, default: "" },
-    role: { type: String, enum: ['admin', 'user'], default: 'user' },
+    role: { type: String, enum: ['admin', 'student'], default: 'student' },
 
   },
   {
@@ -38,6 +38,6 @@ userSchema.methods.generateAccessToken = function () {
     },
     process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '2d' }
   )
-}
+} 
 
 export const User = model('User', userSchema);

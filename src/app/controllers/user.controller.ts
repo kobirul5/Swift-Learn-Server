@@ -98,9 +98,21 @@ const loginUser = async (req: Request, res: Response) => {
 }
 
 
-const logout =  async (req: Request, res: Response)=>{
+const logout = async (req: Request, res: Response) => {
     const user = req.user;
-    console.log(user)
+    console.log(user, "-----------------------")
+    const options = {
+        httpOnly: true,
+        secure: false
+    }
+
+    res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .json({
+            success: true,
+            massage: "User LogOut Successfully",
+        })
 }
 
 
@@ -123,9 +135,7 @@ const getUserByEmail = async (req: Request, res: Response) => {
 
 // get All users
 const getAllUsers = async (req: Request, res: Response) => {
-
     const data = await User.find()
-
     res.status(200).json({
         success: true,
         massage: "Get All User Successfully",
@@ -134,7 +144,18 @@ const getAllUsers = async (req: Request, res: Response) => {
 }
 
 
+const getUserForLogin = async (req: Request, res: Response) => {
+    const user = req.user;
+    res
+        .status(200)
+        .json({
+            success: true,
+            massage: "User data get Successfully",
+            data:user
+        })
+}
 
 
 
-export { getAllUsers, createUser, loginUser, getUserByEmail, logout}
+
+export { getAllUsers, createUser, loginUser, getUserByEmail, logout, getUserForLogin }

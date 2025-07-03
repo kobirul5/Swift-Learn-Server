@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 export interface IModule {
   course: mongoose.Types.ObjectId;
   title: string;
-  moduleNumber: number;
+  description: string;
+  isActive: true;
   lectures: mongoose.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
