@@ -17,7 +17,7 @@ export const verifyJWT = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies?.accessToken
+    const token = req.cookies?.accessToken ||  req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
       return next(new ApiError(401, "Unauthorized request: No token found"));
@@ -29,7 +29,7 @@ export const verifyJWT = async (
     ) as ITokenPayload;
 
     const user = await User.findById(decoded._id).select("-password");
-    console.log("console form midd-----------", user)
+
     if (!user) {
       return next(new ApiError(401, "Invalid access token"));
     }

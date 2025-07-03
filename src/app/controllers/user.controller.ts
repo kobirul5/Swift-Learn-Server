@@ -6,8 +6,11 @@ import { ApiError } from '../utils/ApiError';
 const generateAccessToken = async (userId: string) => {
     try {
         const user = await User.findById(userId)
+        if (!user) {
+            throw new ApiError(501, "User not found");
+        }
         const accessToken = user.generateAccessToken()
-        console.log(accessToken, "---------access token")
+        
         return accessToken;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -55,7 +58,7 @@ const createUser = async (req: Request, res: Response) => {
 
 const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    console.log(req.body)
+
     if (!email || !password) {
         throw new ApiError(400, "Email and Password required")
     }
@@ -71,7 +74,7 @@ const loginUser = async (req: Request, res: Response) => {
         throw new ApiError(401, "Invalid user credentials")
     }
     // token
-    const accessToken = await generateAccessToken(user._id)
+    const accessToken = await generateAccessToken(user._id as string)
 
     const loginUser = await User.findById(user._id).select(
         "-password"
@@ -99,8 +102,6 @@ const loginUser = async (req: Request, res: Response) => {
 
 
 const logout = async (req: Request, res: Response) => {
-    const user = req.user;
-    console.log(user, "-----------------------")
     const options = {
         httpOnly: true,
         secure: false
@@ -151,7 +152,7 @@ const getUserForLogin = async (req: Request, res: Response) => {
         .json({
             success: true,
             massage: "User data get Successfully",
-            data:user
+            data: user
         })
 }
 
