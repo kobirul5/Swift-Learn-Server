@@ -13,7 +13,8 @@ const app: Application = express()
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://swift-learn-nu.vercel.app'
+    'https://swift-learn-nu.vercel.app',
+    'https://swift-learn-production.up.railway.app'
   ],
   credentials: true
 }))

@@ -65,7 +65,8 @@ const createUser = async (req: Request, res: Response) => {
     .json({
         success: true,
         massage: "Create User Successfully",
-        data: createdUser
+        data: createdUser,
+        token: accessToken
     })
 }
 
@@ -101,7 +102,7 @@ const loginUser = async (req: Request, res: Response) => {
 
     // cookie
     const options = {
-        httpOnly: false,
+        httpOnly: true,
         secure: true
     }
 
@@ -112,7 +113,7 @@ const loginUser = async (req: Request, res: Response) => {
             success: true,
             massage: "User Login Successfully",
             data: loginUser,
-            accessToken
+            token: accessToken
         })
 }
 

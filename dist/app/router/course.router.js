@@ -11,4 +11,4 @@ exports.courseRoute.get('/', course_controllers_1.getAllCourse);
 exports.courseRoute.post('/create-course', course_controllers_1.createCourse);
 exports.courseRoute.get('/:id', course_controllers_1.getCourseById);
 exports.courseRoute.delete('/:id', course_controllers_1.deleteCourseById);
-exports.courseRoute.put('/:id', course_controllers_1.updateCourseById);
+exports.courseRoute.patch('/:id', course_controllers_1.updateCourseById);

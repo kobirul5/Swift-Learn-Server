@@ -56,7 +56,8 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         .json({
         success: true,
         massage: "Create User Successfully",
-        data: createdUser
+        data: createdUser,
+        token: accessToken
     });
 });
 exports.createUser = createUser;
@@ -84,7 +85,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     // cookie
     const options = {
-        httpOnly: false,
+        httpOnly: true,
         secure: true
     };
     res
@@ -94,7 +95,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         success: true,
         massage: "User Login Successfully",
         data: loginUser,
-        accessToken
+        token: accessToken
     });
 });
 exports.loginUser = loginUser;
