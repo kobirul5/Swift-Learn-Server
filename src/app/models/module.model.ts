@@ -7,7 +7,7 @@ const moduleSchema = new Schema<IModule>(
         title: { type: String, required: true },
         description:{type: String, required: false, default: ""},
         isActive: { type: Boolean, required: true, default: true },// course
-        lectures: [{ type: Schema.Types.ObjectId, ref: 'Lecture' }]
+        lectures: [{ type: Schema.Types.ObjectId, ref: 'Lecture', default: []}]
     }, {
     timestamps: true,
     versionKey:false

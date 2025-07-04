@@ -20,7 +20,6 @@ const verifyJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     var _a, _b;
     try {
         const token = ((_a = req.cookies) === null || _a === void 0 ? void 0 : _a.accessToken) || ((_b = req.header("Authorization")) === null || _b === void 0 ? void 0 : _b.replace("Bearer ", ""));
-        console.log(token);
         if (!token) {
             return next(new ApiError_1.ApiError(401, "Unauthorized request: No token found"));
         }

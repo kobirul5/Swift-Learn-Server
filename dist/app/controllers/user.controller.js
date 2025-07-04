@@ -78,7 +78,6 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     // token
     const accessToken = yield generateAccessToken(user._id);
-    console.log(accessToken, "---------------usercrontrool");
     const loginUser = yield user_model_1.User.findById(user._id).select("-password");
     if (!loginUser) {
         throw new ApiError_1.ApiError(500, "Something is wrong while login user");
