@@ -11,8 +11,8 @@ const getAllModule = asyncHandler(async (req: Request, res: Response) => {
     console.log(params.id)
 
     const modules = await Module.find({ course: params.id })
-    // .populate('lectures') // Populate lecture details
-    // .sort({ moduleNumber: 1 }); // Optional: Sort by moduleNumber
+    .populate('lectures') // Populate lecture details
+    .sort({ moduleNumber: 1 }); // Optional: Sort by moduleNumber
 
     res.status(200).json({
         success: true,

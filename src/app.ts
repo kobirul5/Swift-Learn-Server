@@ -6,6 +6,7 @@ import { courseRoute } from "./app/router/course.router"
 import cookieParser from "cookie-parser"
 import { studentsRouter } from "./app/router/students.router";
 import { moduleRoute } from "./app/router/module.router";
+import { lectureRoute } from "./app/router/lecture.route";
 
 
 const app: Application = express()
@@ -27,6 +28,7 @@ app.use('/api/courses/', courseRoute)
 app.use('/api/enrollment/', enrollmentRoute)
 app.use('/api/students/', studentsRouter)
 app.use('/api/modules/', moduleRoute)
+app.use('/api/lecture/', lectureRoute)
 
 
 app.get('/', (req: Request, res: Response) => {
