@@ -7,5 +7,6 @@ exports.moduleRoute = void 0;
 const express_1 = __importDefault(require("express"));
 const module_controller_1 = require("../controllers/module.controller");
 exports.moduleRoute = express_1.default.Router();
-exports.moduleRoute.get('/', module_controller_1.getAllModule);
+exports.moduleRoute.get('/:id', module_controller_1.getAllModule);
 exports.moduleRoute.post('/create', module_controller_1.createModule);
+// moduleRoute.get('/lecture', createLecture)

@@ -5,13 +5,19 @@ import { Course } from '../models/course.model'
 
 
 
+
 const getAllModule = asyncHandler(async (req: Request, res: Response) => {
-    const data = await Module.find()
+    const params = req.params;
+    console.log(params.id)
+
+    const modules = await Module.find({ course: params.id })
+    // .populate('lectures') // Populate lecture details
+    // .sort({ moduleNumber: 1 }); // Optional: Sort by moduleNumber
+
     res.status(200).json({
         success: true,
-        massage: "Get Enrolment Successfully",
-        data
-    })
+        data: modules,
+    });
 })
 
 const createModule = asyncHandler(async (req: Request, res: Response) => {
@@ -44,4 +50,5 @@ const createModule = asyncHandler(async (req: Request, res: Response) => {
 })
 
 
-export { getAllModule, createModule }
+
+export { getAllModule, createModule}

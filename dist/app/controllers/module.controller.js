@@ -14,11 +14,14 @@ const module_model_1 = require("../models/module.model");
 const asyncHandler_1 = require("../utils/asyncHandler");
 const course_model_1 = require("../models/course.model");
 const getAllModule = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield module_model_1.Module.find();
+    const params = req.params;
+    console.log(params.id);
+    const modules = yield module_model_1.Module.find({ course: params.id });
+    // .populate('lectures') // Populate lecture details
+    // .sort({ moduleNumber: 1 }); // Optional: Sort by moduleNumber
     res.status(200).json({
         success: true,
-        massage: "Get Enrolment Successfully",
-        data
+        data: modules,
     });
 }));
 exports.getAllModule = getAllModule;

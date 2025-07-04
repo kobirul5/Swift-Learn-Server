@@ -8,4 +8,5 @@ export interface IModule {
   lectures: mongoose.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
+  moduleNumber: number,
 }
