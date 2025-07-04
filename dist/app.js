@@ -9,9 +9,13 @@ const user_router_1 = require("./app/router/user.router");
 const enrollment_router_1 = require("./app/router/enrollment.router");
 const course_router_1 = require("./app/router/course.router");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const students_router_1 = require("./app/router/students.router");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: ['http://localhost:3000'],
+    origin: [
+        'http://localhost:3000',
+        'https://swift-learn-nu.vercel.app'
+    ],
     credentials: true
 }));
 app.use(express_1.default.json());
@@ -19,6 +23,7 @@ app.use((0, cookie_parser_1.default)());
 app.use('/api/users/', user_router_1.userRouter);
 app.use('/api/courses/', course_router_1.courseRoute);
 app.use('/api/enrollment/', enrollment_router_1.enrollmentRoute);
+app.use('/api/students/', students_router_1.studentsRouter);
 app.get('/', (req, res) => {
     res.send('Welcome Swift Learn Management');
 });

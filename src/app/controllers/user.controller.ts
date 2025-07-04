@@ -91,7 +91,6 @@ const loginUser = async (req: Request, res: Response) => {
     // token
     const accessToken = await generateAccessToken(user._id as string)
 
-    console.log(accessToken,"---------------usercrontrool")
     const loginUser = await User.findById(user._id).select(
         "-password"
     )

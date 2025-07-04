@@ -44,7 +44,16 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     if (!createdUser) {
         throw new ApiError_1.ApiError(500, "Something is wrong while create user");
     }
-    res.status(200).json({
+    const accessToken = yield generateAccessToken(user._id);
+    // cookie
+    const options = {
+        httpOnly: true,
+        secure: false
+    };
+    res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .json({
         success: true,
         massage: "Create User Successfully",
         data: createdUser
@@ -69,14 +78,15 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     // token
     const accessToken = yield generateAccessToken(user._id);
+    console.log(accessToken, "---------------usercrontrool");
     const loginUser = yield user_model_1.User.findById(user._id).select("-password");
     if (!loginUser) {
-        throw new ApiError_1.ApiError(500, "Something is wrong while create user");
+        throw new ApiError_1.ApiError(500, "Something is wrong while login user");
     }
     // cookie
     const options = {
-        httpOnly: true,
-        secure: false
+        httpOnly: false,
+        secure: true
     };
     res
         .status(200)
@@ -84,14 +94,15 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         .json({
         success: true,
         massage: "User Login Successfully",
-        data: loginUser
+        data: loginUser,
+        accessToken
     });
 });
 exports.loginUser = loginUser;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const options = {
         httpOnly: true,
-        secure: false
+        secure: true
     };
     res
         .status(200)

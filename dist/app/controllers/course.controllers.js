@@ -9,9 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCourse = exports.getAllCourse = void 0;
+exports.getCourseById = exports.createCourse = exports.getAllCourse = void 0;
 const course_model_1 = require("../models/course.model");
-const createCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const asyncHandler_1 = require("../utils/asyncHandler");
+const createCourse = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const course = req.body;
     const data = yield course_model_1.Course.create(course);
     res.status(200).json({
@@ -19,14 +20,24 @@ const createCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         massage: "Get All Course Successfully",
         data
     });
-});
+}));
 exports.createCourse = createCourse;
-const getAllCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllCourse = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield course_model_1.Course.find();
     res.status(200).json({
         success: true,
         massage: "Get All Course Successfully",
         data
     });
-});
+}));
 exports.getAllCourse = getAllCourse;
+const getCourseById = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.id;
+    const data = yield course_model_1.Course.findById(id);
+    res.status(200).json({
+        success: true,
+        massage: "Get Course Successfully",
+        data
+    });
+}));
+exports.getCourseById = getCourseById;

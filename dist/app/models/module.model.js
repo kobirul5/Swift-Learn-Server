@@ -6,7 +6,7 @@ const moduleSchema = new mongoose_1.Schema({
     course: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Course', required: true },
     title: { type: String, required: true },
     description: { type: String, required: false, default: "" },
-    isActive: { type: Boolean, required: true }, // course
+    isActive: { type: Boolean, required: true, default: true }, // course
     lectures: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Lecture' }]
 }, {
     timestamps: true,
