@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { Course } from '../models/course.model'
 import { asyncHandler } from '../utils/asyncHandler'
 import { Module } from '../models/module.model';
+import mongoose from 'mongoose';
 
 
 
@@ -30,7 +31,7 @@ const getCourseById = asyncHandler(async (req: Request, res: Response) => {
     const id = req.params.id;
     const data = await Course.findById(id)
 
-    if(!data){
+    if (!data) {
         res.status(401).json({
             success: false,
             massage: "Course Not Found"
@@ -47,10 +48,19 @@ const getCourseById = asyncHandler(async (req: Request, res: Response) => {
 const deleteCourseById = asyncHandler(async (req: Request, res: Response) => {
     const id = req.params.id;
 
-     const course = await Course.findById(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        res.status(400).json({
+            success: false,
+            message: "Invalid course ID format",
+        });
+        return
+    }
+
+    const course = await Course.findById(id);
+
 
     if (!course) {
-         res.status(404).json({
+        res.status(404).json({
             success: false,
             message: "Course not found",
         });
@@ -70,4 +80,39 @@ const deleteCourseById = asyncHandler(async (req: Request, res: Response) => {
     })
 })
 
-export { getAllCourse, createCourse, getCourseById, deleteCourseById }
+const updateCourseById = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const updatedData = req.body;
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        res.status(400).json({
+            success: false,
+            message: "Invalid course ID",
+        });
+        return
+    }
+
+    // Find and update course
+    const updatedCourse = await Course.findByIdAndUpdate(id, updatedData, {
+        new: true,
+        runValidators: true,
+    });
+
+    if (!updatedCourse) {
+        res.status(404).json({
+            success: false,
+            message: "Course not found",
+        });
+        return
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Course updated successfully",
+        data: updatedCourse,
+    });
+});
+
+
+export { getAllCourse, createCourse, getCourseById, deleteCourseById, updateCourseById }
