@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { Lecture } from '../models/lecture.model'
 import { Module } from '../models/module.model';
+import { asyncHandler } from '../utils/asyncHandler';
 
 
 const createLecture = async(req: Request, res: Response) => {
@@ -41,10 +42,22 @@ const getAllLecture = async(req: Request, res: Response) => {
 
   res.status(201).json({
     success: true,
-    message: "get all module successfully",
+    message: "get all Lecture successfully",
     data: data,
   });
 }
 
+const deleteLecture = asyncHandler(async(req: Request, res: Response) => {
+    const param = req.params;
+    const data = await Lecture.findByIdAndDelete(param.id)
 
-export { createLecture, getAllLecture}
+  res.status(201).json({
+    success: true,
+    message: "delete successfully",
+    data: data,
+  });
+}
+)
+
+
+export { createLecture, getAllLecture, deleteLecture}
