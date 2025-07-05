@@ -6,7 +6,7 @@ const courseSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
-    thumbnail: String,
+    thumbnail: { type: String, required: true },
     modules: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
