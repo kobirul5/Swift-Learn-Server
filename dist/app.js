@@ -11,6 +11,7 @@ const course_router_1 = require("./app/router/course.router");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const students_router_1 = require("./app/router/students.router");
 const module_router_1 = require("./app/router/module.router");
+const lecture_route_1 = require("./app/router/lecture.route");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
     origin: [
@@ -27,6 +28,7 @@ app.use('/api/courses/', course_router_1.courseRoute);
 app.use('/api/enrollment/', enrollment_router_1.enrollmentRoute);
 app.use('/api/students/', students_router_1.studentsRouter);
 app.use('/api/modules/', module_router_1.moduleRoute);
+app.use('/api/lecture/', lecture_route_1.lectureRoute);
 app.get('/', (req, res) => {
     res.send('Welcome Swift Learn Management');
 });

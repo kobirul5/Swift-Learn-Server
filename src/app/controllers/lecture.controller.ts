@@ -4,11 +4,11 @@ import { Module } from '../models/module.model';
 import { asyncHandler } from '../utils/asyncHandler';
 
 
-const createLecture = async(req: Request, res: Response) => {
-      const { module, title, videoUrl, notes } = req.body;
+const createLecture = async (req: Request, res: Response) => {
+  const { module, title, videoUrl, notes } = req.body;
 
   if (!module || !title || !videoUrl) {
-     res.status(400).json({
+    res.status(400).json({
       success: false,
       message: "Module, title, and videoUrl are required.",
     });
@@ -29,16 +29,16 @@ const createLecture = async(req: Request, res: Response) => {
     { $push: { lectures: newLecture._id } },
     { new: true }
   );
-    res.status(200).json({
-        success: true,
-        massage: "crate lecture Successfully",
-        data:newLecture
-    })
+  res.status(200).json({
+    success: true,
+    massage: "crate lecture Successfully",
+    data: newLecture
+  })
 }
 
-const getAllLecture = async(req: Request, res: Response) => {
-    const param = req.params;
-    const data = await Lecture.find({module: param.id})
+const getAllLecture = async (req: Request, res: Response) => {
+  const param = req.params;
+  const data = await Lecture.find({ module: param.id })
 
   res.status(201).json({
     success: true,
@@ -47,9 +47,14 @@ const getAllLecture = async(req: Request, res: Response) => {
   });
 }
 
-const deleteLecture = asyncHandler(async(req: Request, res: Response) => {
-    const param = req.params;
-    const data = await Lecture.findByIdAndDelete(param.id)
+const deleteLecture = asyncHandler(async (req: Request, res: Response) => {
+  const param = req.params;
+  const data = await Lecture.findByIdAndDelete(param.id)
+  await Module.findByIdAndUpdate(
+    data?.module,
+    { $pull: { lectures: data?._id } },
+    { new: true }
+  );
 
   res.status(201).json({
     success: true,
@@ -60,4 +65,4 @@ const deleteLecture = asyncHandler(async(req: Request, res: Response) => {
 )
 
 
-export { createLecture, getAllLecture, deleteLecture}
+export { createLecture, getAllLecture, deleteLecture }
