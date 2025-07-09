@@ -17,7 +17,8 @@ app.use((0, cors_1.default)({
     origin: [
         'http://localhost:3000',
         'https://swift-learn-nu.vercel.app',
-        'https://swift-learn-production.up.railway.app'
+        'https://swift-learn-production.up.railway.app',
+        'https://swift-learn1.vercel.app/'
     ],
     credentials: true
 }));
