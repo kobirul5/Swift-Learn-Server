@@ -6,10 +6,10 @@ class ApiError extends Error {
 
   constructor(
     statusCode: number,
-    message: string = "Something Went Wrong",
+    message = "Something Went Wrong",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     errors: any[] = [],
-    stack: string = ""
+    stack = ""
   ) {
     super(message);
 
