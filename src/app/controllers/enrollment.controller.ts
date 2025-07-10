@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { Enrollment } from '../models/enrollment.model'
 import { Course } from '../models/course.model'
+import { IEnrollment } from '../interfaces/enrollment.interface'
 
 
 const getAllEnrollment = async(req: Request, res: Response) => {
@@ -23,10 +24,9 @@ const createEnrollment = async(req: Request, res: Response) => {
 
 const getStudentEnrollmentAndCourse = async(req: Request, res: Response) => {
 
-
     const {studentId }= req.params; 
-    // Step 1: Get the student's enrollment data
-    const enrollment = await Enrollment.findOne({ student: studentId });
+    // Get the student's enrollment data
+    const enrollment = await Enrollment.find({ student: studentId }) as IEnrollment[];
 
     if (!enrollment) {
        res.status(404).json({
@@ -36,10 +36,11 @@ const getStudentEnrollmentAndCourse = async(req: Request, res: Response) => {
       return
     }
 
-    // Step 2: Extract all courseIds the student is enrolled in
-    const courseIds = enrollment.progress.map(p => p.course);
+    //  Extract all courseIds the student is enrolled in
+    const courseIds = enrollment.flatMap(e => e.progress.map(p => p.course));
+    console.log( courseIds, "------------------------")
 
-    // Step 3: Get courses with modules populated
+    //  Get courses with modules populated
     const courses = await Course.find({ _id: { $in: courseIds } })
       .populate({
         path: 'modules',
@@ -48,19 +49,13 @@ const getStudentEnrollmentAndCourse = async(req: Request, res: Response) => {
         },
       });
 
-    // Step 4: Return enriched course data
+    //  Return enriched course data
      res.status(200).json({
       success: true,
       message: 'Enrolled courses fetched successfully',
       data: courses,
     });
 
-    // student id diye course gula ber korbo, 
-    // req.body theke course diye kon course mil ase sete ber korbo
-    // course er modde ta get korbo corser modde moude id gula thakbe segula ber korbo, 
-    // module er modde lecture thakbe segula ber kore fron end a res ponse pathabo
-
-    
 }
 
 
