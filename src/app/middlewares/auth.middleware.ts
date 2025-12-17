@@ -2,7 +2,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ApiError } from "../utils/ApiError";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { User } from "../models/user.model";
+import { User } from "../users/user.model";
 
 // Define custom type for decoded token
 interface ITokenPayload extends JwtPayload {

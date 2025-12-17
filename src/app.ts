@@ -1,12 +1,12 @@
 import express, { Application, NextFunction, Request, Response } from "express"
 import cors from 'cors';
-import { userRouter } from "./app/router/user.router"
-import { enrollmentRoute } from "./app/router/enrollment.router"
-import { courseRoute } from "./app/router/course.router"
+import { courseRoute } from "./app/course/course.router"
 import cookieParser from "cookie-parser"
-import { studentsRouter } from "./app/router/students.router";
-import { moduleRoute } from "./app/router/module.router";
-import { lectureRoute } from "./app/router/lecture.route";
+import { moduleRoute } from "./app/courseModule/module.router";
+import { lectureRoute } from "./app/lecture/lecture.route";
+import { userRouter } from "./app/users/user.router";
+import { enrollmentRoute } from "./app/enrollment/enrollment.router";
+import { studentsRouter } from "./app/student/students.router";
 
 
 const app: Application = express()
