@@ -4,7 +4,6 @@ import { Course } from '../course/course.model'
 import { IEnrollment } from './enrollment.interface'
 import { Enrollment } from './enrollment.model'
 
-
 const getAllEnrollment = async(req: Request, res: Response) => {
     const data = await Enrollment.find()
     res.status(200).json({

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { Course } from '../course/course.model'
-import { asyncHandler } from '../utils/asyncHandler'
+import { Course } from './course.model'
+import { asyncHandler } from '../../utils/asyncHandler'
 import mongoose from 'mongoose';
 import { Module } from '../courseModule/module.model';
 

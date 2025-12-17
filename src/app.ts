@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Routes
-app.use("/api", router)
+app.use(router)
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome Swift Learn Management')

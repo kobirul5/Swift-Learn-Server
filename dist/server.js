@@ -16,19 +16,58 @@ require("dotenv/config");
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
 const port = process.env.PORT || 5000;
-const uri = `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@cluster0.dgvjh.mongodb.net/SwiftLearn?retryWrites=true&w=majority&appName=Cluster0`;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const uri = process.env.MONGODB_URI;
 let server;
+/**
+ * Graceful shutdown handler
+ */
+const exitHandler = (type, error) => __awaiter(void 0, void 0, void 0, function* () {
+    if (error) {
+        console.error(type, error);
+    }
+    else {
+        console.log(`${type} received. Shutting down gracefully...`);
+    }
+    try {
+        if (server) {
+            server.close(() => {
+                console.log("HTTP server closed.");
+            });
+        }
+        yield mongoose_1.default.connection.close();
+        console.log("MongoDB connection closed.");
+        process.exit(0);
+    }
+    catch (err) {
+        console.error("Error during shutdown:", err);
+        process.exit(1);
+    }
+});
+/**
+ * Process-level error handling
+ */
+process.on("uncaughtException", (error) => exitHandler("Uncaught Exception", error));
+process.on("unhandledRejection", (error) => exitHandler("Unhandled Rejection", error));
+/**
+ * OS signals
+ */
+["SIGTERM", "SIGINT"].forEach((signal) => {
+    process.on(signal, () => exitHandler(signal));
+});
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield mongoose_1.default.connect(uri);
+            console.log("MongoDB connected");
             server = app_1.default.listen(port, () => {
-                console.log(`Example app listening on port ${port}`);
+                console.log(`Server listening on port ${port}`);
+                console.log(`Server Local link : http://localhost:${port}`);
             });
         }
         catch (error) {
-            console.log(error, "something is wrong");
+            console.error("Startup failed:", error);
+            console.log("Shutting down due to startup failure.");
+            process.exit(1);
         }
     });
 }

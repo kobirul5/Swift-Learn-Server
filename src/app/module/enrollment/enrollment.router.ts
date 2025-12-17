@@ -1,5 +1,5 @@
 import express from 'express'
-import { createEnrollment, getAllEnrollment, getStudentEnrollmentAndCourse } from '../enrollment/enrollment.controller'
+import { createEnrollment, getAllEnrollment, getStudentEnrollmentAndCourse } from './enrollment.controller'
 
 
 

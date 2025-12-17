@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllStudents = void 0;
-const asyncHandler_1 = require("../utils/asyncHandler");
+const asyncHandler_1 = require("../../utils/asyncHandler");
 const user_model_1 = require("../users/user.model");
 const getAllStudents = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page) || 1;

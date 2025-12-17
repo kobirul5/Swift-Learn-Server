@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyJWT = void 0;
 const ApiError_1 = require("../utils/ApiError");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const user_model_1 = require("../users/user.model");
+const user_model_1 = require("../module/users/user.model");
 const verifyJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     try {

@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.enrollmentRoute = void 0;
 const express_1 = __importDefault(require("express"));
-const enrollment_controller_1 = require("../enrollment/enrollment.controller");
+const enrollment_controller_1 = require("./enrollment.controller");
 exports.enrollmentRoute = express_1.default.Router();
 exports.enrollmentRoute.get('/', enrollment_controller_1.getAllEnrollment);
 exports.enrollmentRoute.post('/', enrollment_controller_1.createEnrollment);

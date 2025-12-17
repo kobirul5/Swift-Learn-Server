@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { User } from './user.model';
-import { ApiError } from '../utils/ApiError';
+import { ApiError } from '../../utils/ApiError';
 
 
 const generateAccessToken = async (userId: string) => {

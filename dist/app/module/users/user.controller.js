@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserForLogin = exports.logout = exports.getUserByEmail = exports.loginUser = exports.createUser = exports.getAllUsers = void 0;
 const user_model_1 = require("./user.model");
-const ApiError_1 = require("../utils/ApiError");
+const ApiError_1 = require("../../utils/ApiError");
 const generateAccessToken = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_model_1.User.findById(userId);

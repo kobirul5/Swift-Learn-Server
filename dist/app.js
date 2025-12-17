@@ -5,13 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const course_router_1 = require("./app/course/course.router");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const module_router_1 = require("./app/courseModule/module.router");
-const lecture_route_1 = require("./app/lecture/lecture.route");
-const user_router_1 = require("./app/users/user.router");
-const enrollment_router_1 = require("./app/enrollment/enrollment.router");
-const students_router_1 = require("./app/student/students.router");
+const router_1 = __importDefault(require("./router"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
     origin: [
@@ -24,12 +19,8 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
-app.use('/api/users/', user_router_1.userRouter);
-app.use('/api/courses/', course_router_1.courseRoute);
-app.use('/api/enrollment/', enrollment_router_1.enrollmentRoute);
-app.use('/api/students/', students_router_1.studentsRouter);
-app.use('/api/modules/', module_router_1.moduleRoute);
-app.use('/api/lecture/', lecture_route_1.lectureRoute);
+// Routes
+app.use(router_1.default);
 app.get('/', (req, res) => {
     res.send('Welcome Swift Learn Management');
 });

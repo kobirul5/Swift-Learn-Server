@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteLecture = exports.getAllLecture = exports.createLecture = void 0;
-const asyncHandler_1 = require("../utils/asyncHandler");
+const asyncHandler_1 = require("../../utils/asyncHandler");
 const lecture_model_1 = require("./lecture.model");
 const module_model_1 = require("../courseModule/module.model");
 const createLecture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

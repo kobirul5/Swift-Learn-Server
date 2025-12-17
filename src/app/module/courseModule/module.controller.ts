@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { asyncHandler } from '../utils/asyncHandler'
+import { asyncHandler } from '../../utils/asyncHandler'
 import { Course } from '../course/course.model'
 import { Module } from './module.model';
 

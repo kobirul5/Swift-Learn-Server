@@ -1,10 +1,11 @@
 import express from "express";
-import { courseRoute } from "../app/course/course.router"
-import { moduleRoute } from "../app/courseModule/module.router";
-import { lectureRoute } from "../app/lecture/lecture.route";
-import { userRouter } from "../app/users/user.router";
-import { enrollmentRoute } from "../app/enrollment/enrollment.router";
-import { studentsRouter } from "../app/student/students.router";
+import { courseRoute } from "../app/module/course/course.router"
+import { moduleRoute } from "../app/module/courseModule/module.router";
+import { lectureRoute } from "../app/module/lecture/lecture.route";
+import { userRouter } from "../app/module/users/user.router";
+import { enrollmentRoute } from "../app/module/enrollment/enrollment.router";
+import { studentsRouter } from "../app/module/student/students.router";
+
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IEnrollment } from '../enrollment/enrollment.interface';
+import { IEnrollment } from './enrollment.interface';
 
 
 const progressScema = new Schema(

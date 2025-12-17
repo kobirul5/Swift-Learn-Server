@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCourseById = exports.deleteCourseById = exports.getCourseById = exports.createCourse = exports.getAllCourse = void 0;
-const course_model_1 = require("../course/course.model");
-const asyncHandler_1 = require("../utils/asyncHandler");
+const course_model_1 = require("./course.model");
+const asyncHandler_1 = require("../../utils/asyncHandler");
 const mongoose_1 = __importDefault(require("mongoose"));
 const module_model_1 = require("../courseModule/module.model");
 const createCourse = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
