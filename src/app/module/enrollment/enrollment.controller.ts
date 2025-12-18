@@ -1,62 +1,26 @@
 import { Request, Response } from 'express'
+import sendResponse from '../../../shared/sendResponse'
+import { asyncHandler } from '../../utils/asyncHandler'
+import {
+  getAllEnrollmentService,
+  createEnrollmentService,
+  getStudentEnrollmentAndCourseService,
+} from './enrollment.service'
 
-import { Course } from '../course/course.model'
-import { IEnrollment } from './enrollment.interface'
-import { Enrollment } from './enrollment.model'
+const getAllEnrollment = asyncHandler(async (req: Request, res: Response) => {
+  const data = await getAllEnrollmentService();
+  sendResponse(res, { statusCode: 200, success: true, message: 'Get Enrolment Successfully', data });
+})
 
-const getAllEnrollment = async(req: Request, res: Response) => {
-    const data = await Enrollment.find()
-    res.status(200).json({
-        success: true,
-        massage: "Get Enrolment Successfully",
-        data
-    })
-}
-const createEnrollment = async(req: Request, res: Response) => {
-    const enData = req.body;
-    const data = await Enrollment.create(enData)
-    res.status(200).json({
-        success: true,
-        massage: "Get Enrolment Successfully",
-        data
-    })
-}
+const createEnrollment = asyncHandler(async (req: Request, res: Response) => {
+  const data = await createEnrollmentService(req.body);
+  sendResponse(res, { statusCode: 200, success: true, message: 'Enrollment created', data });
+})
 
-const getStudentEnrollmentAndCourse = async(req: Request, res: Response) => {
+const getStudentEnrollmentAndCourse = asyncHandler(async (req: Request, res: Response) => {
+  const { studentId } = req.params;
+  const courses = await getStudentEnrollmentAndCourseService(studentId);
+  sendResponse(res, { statusCode: 200, success: true, message: 'Enrolled courses fetched successfully', data: courses });
+})
 
-    const {studentId }= req.params; 
-    // Get the student's enrollment data
-    const enrollment = await Enrollment.find({ student: studentId }) as IEnrollment[];
-
-    if (!enrollment) {
-       res.status(404).json({
-        success: false,
-        message: 'Enrollment not found for this student',
-      });
-      return
-    }
-
-    //  Extract all courseIds the student is enrolled in
-    const courseIds = enrollment.flatMap(e => e.progress.map(p => p.course));
-    console.log( courseIds, "------------------------")
-
-    //  Get courses with modules populated
-    const courses = await Course.find({ _id: { $in: courseIds } })
-      .populate({
-        path: 'modules',
-        populate: {
-          path: 'lectures',
-        },
-      });
-
-    //  Return enriched course data
-     res.status(200).json({
-      success: true,
-      message: 'Enrolled courses fetched successfully',
-      data: courses,
-    });
-
-}
-
-
-export {getAllEnrollment, getStudentEnrollmentAndCourse, createEnrollment}
+export { getAllEnrollment, getStudentEnrollmentAndCourse, createEnrollment }

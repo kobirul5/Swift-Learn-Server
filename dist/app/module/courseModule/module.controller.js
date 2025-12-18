@@ -8,43 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createModule = exports.getAllModule = void 0;
 const asyncHandler_1 = require("../../utils/asyncHandler");
-const course_model_1 = require("../course/course.model");
-const module_model_1 = require("./module.model");
+const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
+const module_service_1 = require("./module.service");
 const getAllModule = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const params = req.params;
-    console.log(params.id);
-    const modules = yield module_model_1.Module.find({ course: params.id })
-        .populate('lectures') // Populate lecture details
-        .sort({ moduleNumber: 1 }); // Optional: Sort by moduleNumber
-    res.status(200).json({
-        success: true,
-        data: modules,
-    });
+    const modules = yield (0, module_service_1.getAllModuleService)(req.params.id);
+    (0, sendResponse_1.default)(res, { statusCode: 200, success: true, data: modules });
 }));
 exports.getAllModule = getAllModule;
 const createModule = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const module = req.body;
-    const data = yield module_model_1.Module.create(module);
-    if (!data) {
-        res.status(404).json({
-            success: false,
-            massage: "data not create"
-        });
-        return;
-    }
-    yield course_model_1.Course.findByIdAndUpdate(data.course, // course ID
-    {
-        $addToSet: {
-            modules: data._id, //  module ID added
-        },
-    }, { new: true });
-    res.status(200).json({
-        success: true,
-        massage: "Get Enrolment Successfully",
-        data
-    });
+    const data = yield (0, module_service_1.createModuleService)(req.body);
+    (0, sendResponse_1.default)(res, { statusCode: 200, success: true, message: 'Module created', data });
 }));
 exports.createModule = createModule;

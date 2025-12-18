@@ -8,54 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteLecture = exports.getAllLecture = exports.createLecture = void 0;
 const asyncHandler_1 = require("../../utils/asyncHandler");
-const lecture_model_1 = require("./lecture.model");
-const module_model_1 = require("../courseModule/module.model");
-const createLecture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { module, title, videoUrl, notes } = req.body;
-    if (!module || !title || !videoUrl) {
-        res.status(400).json({
-            success: false,
-            message: "Module, title, and videoUrl are required.",
-        });
-        return;
-    }
-    // 1️⃣ Create Lecture
-    const newLecture = yield lecture_model_1.Lecture.create({
-        module,
-        title,
-        videoUrl,
-        notes,
-    });
-    // 2️⃣ Push lecture._id to the module’s lectures array
-    yield module_model_1.Module.findByIdAndUpdate(module, { $push: { lectures: newLecture._id } }, { new: true });
-    res.status(200).json({
-        success: true,
-        massage: "crate lecture Successfully",
-        data: newLecture
-    });
-});
+const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
+const lecture_service_1 = require("./lecture.service");
+const createLecture = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const newLecture = yield (0, lecture_service_1.createLectureService)(req.body);
+    (0, sendResponse_1.default)(res, { statusCode: 200, success: true, message: 'Create lecture Successfully', data: newLecture });
+}));
 exports.createLecture = createLecture;
-const getAllLecture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const param = req.params;
-    const data = yield lecture_model_1.Lecture.find({ module: param.id });
-    res.status(201).json({
-        success: true,
-        message: "get all Lecture successfully",
-        data: data,
-    });
-});
+const getAllLecture = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield (0, lecture_service_1.getAllLectureService)(req.params.id);
+    (0, sendResponse_1.default)(res, { statusCode: 200, success: true, message: 'get all Lecture successfully', data });
+}));
 exports.getAllLecture = getAllLecture;
 const deleteLecture = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const param = req.params;
-    const data = yield lecture_model_1.Lecture.findByIdAndDelete(param.id);
-    yield module_model_1.Module.findByIdAndUpdate(data === null || data === void 0 ? void 0 : data.module, { $pull: { lectures: data === null || data === void 0 ? void 0 : data._id } }, { new: true });
-    res.status(201).json({
-        success: true,
-        message: "delete successfully",
-        data: data,
-    });
+    const data = yield (0, lecture_service_1.deleteLectureService)(req.params.id);
+    (0, sendResponse_1.default)(res, { statusCode: 200, success: true, message: 'delete successfully', data });
 }));
 exports.deleteLecture = deleteLecture;

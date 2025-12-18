@@ -8,26 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllStudents = void 0;
 const asyncHandler_1 = require("../../utils/asyncHandler");
-const user_model_1 = require("../users/user.model");
+const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
+const student_service_1 = require("./student.service");
 const getAllStudents = (0, asyncHandler_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-    const students = yield user_model_1.User.find().skip(skip).limit(limit).sort({ createdAt: -1 });
-    const total = yield user_model_1.User.countDocuments();
-    res.status(200).json({
+    const { students, pagination } = yield (0, student_service_1.getAllStudentsService)(page, limit);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
         success: true,
-        message: students.length === 0 ? "No students found" : "Students retrieved",
+        message: students.length === 0 ? 'No students found' : 'Students retrieved',
         data: students,
-        pagination: {
-            total,
-            page,
-            limit,
-            totalPages: Math.ceil(total / limit),
-        },
+        meta: pagination,
     });
 }));
 exports.getAllStudents = getAllStudents;

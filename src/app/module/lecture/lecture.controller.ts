@@ -1,68 +1,25 @@
 import { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler';
-import { Lecture } from './lecture.model';
-import { Module } from '../courseModule/module.model';
+import sendResponse from '../../../shared/sendResponse'
+import {
+  createLectureService,
+  getAllLectureService,
+  deleteLectureService,
+} from './lecture.service'
 
+const createLecture = asyncHandler(async (req: Request, res: Response) => {
+  const newLecture = await createLectureService(req.body);
+  sendResponse(res, { statusCode: 200, success: true, message: 'Create lecture Successfully', data: newLecture });
+})
 
-const createLecture = async (req: Request, res: Response) => {
-  const { module, title, videoUrl, notes } = req.body;
-
-  if (!module || !title || !videoUrl) {
-    res.status(400).json({
-      success: false,
-      message: "Module, title, and videoUrl are required.",
-    });
-    return
-  }
-
-  // 1️⃣ Create Lecture
-  const newLecture = await Lecture.create({
-    module,
-    title,
-    videoUrl,
-    notes,
-  });
-
-  // 2️⃣ Push lecture._id to the module’s lectures array
-  await Module.findByIdAndUpdate(
-    module,
-    { $push: { lectures: newLecture._id } },
-    { new: true }
-  );
-  res.status(200).json({
-    success: true,
-    massage: "crate lecture Successfully",
-    data: newLecture
-  })
-}
-
-const getAllLecture = async (req: Request, res: Response) => {
-  const param = req.params;
-  const data = await Lecture.find({ module: param.id })
-
-  res.status(201).json({
-    success: true,
-    message: "get all Lecture successfully",
-    data: data,
-  });
-}
+const getAllLecture = asyncHandler(async (req: Request, res: Response) => {
+  const data = await getAllLectureService(req.params.id);
+  sendResponse(res, { statusCode: 200, success: true, message: 'get all Lecture successfully', data });
+})
 
 const deleteLecture = asyncHandler(async (req: Request, res: Response) => {
-  const param = req.params;
-  const data = await Lecture.findByIdAndDelete(param.id)
-  await Module.findByIdAndUpdate(
-    data?.module,
-    { $pull: { lectures: data?._id } },
-    { new: true }
-  );
-
-  res.status(201).json({
-    success: true,
-    message: "delete successfully",
-    data: data,
-  });
-}
-)
-
+  const data = await deleteLectureService(req.params.id);
+  sendResponse(res, { statusCode: 200, success: true, message: 'delete successfully', data });
+})
 
 export { createLecture, getAllLecture, deleteLecture }

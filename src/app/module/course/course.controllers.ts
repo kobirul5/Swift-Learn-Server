@@ -1,117 +1,43 @@
 import { Request, Response } from 'express'
-import { Course } from './course.model'
 import { asyncHandler } from '../../utils/asyncHandler'
-import mongoose from 'mongoose';
-import { Module } from '../courseModule/module.model';
+import sendResponse from '../../../shared/sendResponse'
+import {
+    createCourseService,
+    getAllCourseService,
+    getCourseByIdService,
+    deleteCourseByIdService,
+    updateCourseByIdService,
+} from './course.service'
 
 
 
 
-const createCourse = asyncHandler(
-    async (req: Request, res: Response) => {
-        const course = req.body;
-        const data = await Course.create(course)
-        res.status(200).json({
-            success: true,
-            massage: "Get All Course Successfully",
-            data
-        })
-    }
-)
+const createCourse = asyncHandler(async (req: Request, res: Response) => {
+  const data = await createCourseService(req.body);
+  sendResponse(res, { statusCode: 200, success: true, message: 'Course created', data });
+});
+
 const getAllCourse = asyncHandler(async (req: Request, res: Response) => {
+  const data = await getAllCourseService();
+  sendResponse(res, { statusCode: 200, success: true, message: 'Get All Course Successfully', data });
+});
 
-    const data = await Course.find()
-    res.status(200).json({
-        success: true,
-        massage: "Get All Course Successfully",
-        data
-    })
-})
 const getCourseById = asyncHandler(async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const data = await Course.findById(id)
-
-    if (!data) {
-        res.status(401).json({
-            success: false,
-            massage: "Course Not Found"
-        })
-    }
-
-    res.status(200).json({
-        success: true,
-        massage: "Get Course Successfully",
-        data
-    })
-})
+  const id = req.params.id;
+  const data = await getCourseByIdService(id);
+  sendResponse(res, { statusCode: 200, success: true, message: 'Get Course Successfully', data });
+});
 
 const deleteCourseById = asyncHandler(async (req: Request, res: Response) => {
-    const id = req.params.id;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(400).json({
-            success: false,
-            message: "Invalid course ID format",
-        });
-        return
-    }
-
-    const course = await Course.findById(id);
-
-
-    if (!course) {
-        res.status(404).json({
-            success: false,
-            message: "Course not found",
-        });
-        return
-    }
-
-    // Delete all modules associated with the course
-    if (course.modules && course.modules.length > 0) {
-        await Module.deleteMany({ _id: { $in: course.modules } });
-    }
-
-    const data = await Course.findByIdAndDelete(id)
-    res.status(200).json({
-        success: true,
-        massage: "Delete Course Successfully",
-        data
-    })
-})
+  const id = req.params.id;
+  const data = await deleteCourseByIdService(id);
+  sendResponse(res, { statusCode: 200, success: true, message: 'Delete Course Successfully', data });
+});
 
 const updateCourseById = asyncHandler(async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    // Validate ObjectId
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        res.status(400).json({
-            success: false,
-            message: "Invalid course ID",
-        });
-        return
-    }
-
-    // Find and update course
-    const updatedCourse = await Course.findByIdAndUpdate(id, updatedData, {
-        new: true,
-        runValidators: true,
-    });
-
-    if (!updatedCourse) {
-        res.status(404).json({
-            success: false,
-            message: "Course not found",
-        });
-        return
-    }
-
-    res.status(200).json({
-        success: true,
-        message: "Course updated successfully",
-        data: updatedCourse,
-    });
+  const { id } = req.params;
+  const updatedCourse = await updateCourseByIdService(id, req.body);
+  sendResponse(res, { statusCode: 200, success: true, message: 'Course updated successfully', data: updatedCourse });
 });
 
 
