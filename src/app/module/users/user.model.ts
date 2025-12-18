@@ -10,7 +10,10 @@ const userSchema = new Schema<IUser>(
     password: { type: String, required: true },
     image: { type: String, default: "" },
     role: { type: String, enum: ['admin', 'student'], default: 'student' },
-
+    otp: { type: Number, default: 0 },
+    otpExpiresAt: { type: Date, default: null },
+    isVerifyEmail: { type: Boolean, default: false },
+    fcmToken: { type: String, default: "" },
   },
   {
     timestamps: true,
@@ -20,7 +23,7 @@ const userSchema = new Schema<IUser>(
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  
+
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
@@ -38,6 +41,6 @@ userSchema.methods.generateAccessToken = function () {
     },
     process.env.ACCESS_TOKEN_SECRET as string, { expiresIn: '2d' }
   )
-} 
+}
 
 export const User = model('User', userSchema);

@@ -6,6 +6,10 @@ export interface IUser extends Document {
   password: string;
   image?: string
   role: 'admin' | 'student';
+  otp?: number;
+  otpExpiresAt?: Date;
+  isVerifyEmail?: boolean;
+  fcmToken?: string;
   isPasswordCorrect(password: string): Promise<boolean>;
   generateAccessToken(): string;
 }
