@@ -11,33 +11,33 @@ interface ITokenPayload extends JwtPayload {
   role: string;
 }
 
-export const verifyJWT = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const token = req.cookies?.accessToken ||  req.header("Authorization")?.replace("Bearer ", "");
-    if (!token) {
-      return next(new ApiError(401, "Unauthorized request: No token found"));
+// Role-aware middleware factory. Use `checauth()` for generic auth or `checauth('admin')` for role checks.
+export const checkAuth = (...roles: string[]) => {
+  return async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+    try {
+      const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+      if (!token) {
+        return next(new ApiError(401, "You are not authorized!"));
+      }
+
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string) as ITokenPayload;
+
+      const user = await User.findById(decoded._id).select("-password");
+      if (!user) {
+        return next(new ApiError(404, "User not found!"));
+      }
+
+      if (roles.length && !roles.includes(user.role)) {
+        return next(new ApiError(403, "Forbidden!"));
+      }
+
+      req.user = user;
+      next();
+    } catch (err) {
+      next(err);
     }
-
-    const decoded = jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET as string
-    ) as ITokenPayload;
-
-    const user = await User.findById(decoded._id).select("-password");
-
-    if (!user) {
-      return next(new ApiError(401, "Invalid access token"));
-    }
-
-    req.user = user;
-
-    next();
-  } catch (error) {
-    console.error("JWT verify error:", error);
-    return next(new ApiError(401, "Invalid or expired token"));
-  }
+  };
 };
+
+// Backwards-compatible alias (single middleware) for existing usages
+export const verifyJWT = checkAuth();
