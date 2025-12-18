@@ -13,7 +13,6 @@ const userSchema = new Schema<IUser>(
     otp: { type: Number, default: 0 },
     otpExpiresAt: { type: Date, default: null },
     isVerifyEmail: { type: Boolean, default: false },
-    fcmToken: { type: String, default: "" },
   },
   {
     timestamps: true,

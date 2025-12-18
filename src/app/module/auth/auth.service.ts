@@ -10,7 +10,7 @@ import { registrationOtpTemplate } from '../../../helpers/template/registrationO
 import { forgotPasswordTemplate } from '../../../helpers/template/forgotPasswordTemplate';
 
 const createUserIntoDb = async (payload: any) => {
-    const { email, password, fcmToken, ...userData } = payload;
+    const { email, password, ...userData } = payload;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -32,7 +32,6 @@ const createUserIntoDb = async (payload: any) => {
     await User.findByIdAndUpdate(newUser._id, {
         otp,
         otpExpiresAt: otpExpires,
-        fcmToken,
     });
 
     try {
@@ -57,7 +56,7 @@ const createUserIntoDb = async (payload: any) => {
     };
 };
 
-const loginUser = async (payload: { email: string; password: string; fcmToken?: string }) => {
+const loginUser = async (payload: { email: string; password: string }) => {
     const user = await User.findOne({ email: payload.email });
 
     if (!user) {
@@ -67,10 +66,6 @@ const loginUser = async (payload: { email: string; password: string; fcmToken?: 
     const isCorrectPassword = await user.isPasswordCorrect(payload.password);
     if (!isCorrectPassword) {
         throw new ApiError(401, 'Password incorrect!');
-    }
-
-    if (payload.fcmToken) {
-        await User.findByIdAndUpdate(user._id, { fcmToken: payload.fcmToken });
     }
 
     const accessToken = jwtHelpers.generateToken(

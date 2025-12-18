@@ -3,8 +3,11 @@ import { createEnrollment, getAllEnrollment, getStudentEnrollmentAndCourse } fro
 
 
 
+import { checkAuth } from '../../middlewares/auth.middleware'
+
+
 export const enrollmentRoute = express.Router()
 
-enrollmentRoute.get('/', getAllEnrollment)
-enrollmentRoute.post('/', createEnrollment)
-enrollmentRoute.get('/:studentId', getStudentEnrollmentAndCourse)
+enrollmentRoute.get('/', checkAuth('admin'), getAllEnrollment)
+enrollmentRoute.post('/', checkAuth('student'), createEnrollment)
+enrollmentRoute.get('/:studentId', checkAuth('admin', 'student'), getStudentEnrollmentAndCourse)

@@ -9,7 +9,6 @@ export interface IUser extends Document {
   otp?: number;
   otpExpiresAt?: Date;
   isVerifyEmail?: boolean;
-  fcmToken?: string;
   isPasswordCorrect(password: string): Promise<boolean>;
   generateAccessToken(): string;
 }

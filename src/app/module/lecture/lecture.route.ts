@@ -3,9 +3,12 @@ import { createLecture, deleteLecture, getAllLecture } from './lecture.controlle
 
 
 
+import { checkAuth } from '../../middlewares/auth.middleware'
+
+
 export const lectureRoute = express.Router()
 
-lectureRoute.post('/', createLecture)
+lectureRoute.post('/', checkAuth('admin'), createLecture)
 lectureRoute.get('/:id', getAllLecture)
-lectureRoute.delete('/:id', deleteLecture)
+lectureRoute.delete('/:id', checkAuth('admin'), deleteLecture)
 
