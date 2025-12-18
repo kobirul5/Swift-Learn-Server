@@ -1,11 +1,9 @@
-import { ApiError } from '../../utils/ApiError';
-import { User } from './user.model';
-
-
+import { ApiError } from "../../utils/ApiError";
+import { User } from "./user.model";
 
 const getUserByEmailService = async (email: string) => {
   const user = await User.findOne({ email });
-  if (!user) throw new ApiError(404, 'User not found');
+  if (!user) throw new ApiError(404, "User not found");
   return user;
 };
 
@@ -16,13 +14,9 @@ const getAllUsersService = async () => {
 const getMeService = async (userId: string) => {
   const user = await User.findById(userId);
   if (!user) {
-    throw new ApiError(404, 'User not found');
+    throw new ApiError(404, "User not found");
   }
   return user;
 };
 
-export {
-  getMeService,
-  getUserByEmailService,
-  getAllUsersService,
-};
+export { getMeService, getUserByEmailService, getAllUsersService };

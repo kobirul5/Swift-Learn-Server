@@ -1,44 +1,71 @@
-import { Request, Response } from 'express'
-import { asyncHandler } from '../../utils/asyncHandler'
-import sendResponse from '../../../shared/sendResponse'
+import { Request, Response } from "express";
+import { asyncHandler } from "../../utils/asyncHandler";
+import sendResponse from "../../../shared/sendResponse";
 import {
-    createCourseService,
-    getAllCourseService,
-    getCourseByIdService,
-    deleteCourseByIdService,
-    updateCourseByIdService,
-} from './course.service'
-
-
-
+  createCourseService,
+  getAllCourseService,
+  getCourseByIdService,
+  deleteCourseByIdService,
+  updateCourseByIdService,
+} from "./course.service";
 
 const createCourse = asyncHandler(async (req: Request, res: Response) => {
   const data = await createCourseService(req.body);
-  sendResponse(res, { statusCode: 200, success: true, message: 'Course created', data });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Course created successfully",
+    data,
+  });
 });
 
 const getAllCourse = asyncHandler(async (req: Request, res: Response) => {
   const data = await getAllCourseService();
-  sendResponse(res, { statusCode: 200, success: true, message: 'Get All Course Successfully', data });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Courses retrieved successfully",
+    data,
+  });
 });
 
 const getCourseById = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id;
   const data = await getCourseByIdService(id);
-  sendResponse(res, { statusCode: 200, success: true, message: 'Get Course Successfully', data });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Course retrieved successfully",
+    data,
+  });
 });
 
 const deleteCourseById = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id;
   const data = await deleteCourseByIdService(id);
-  sendResponse(res, { statusCode: 200, success: true, message: 'Delete Course Successfully', data });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Course deleted successfully",
+    data,
+  });
 });
 
 const updateCourseById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const updatedCourse = await updateCourseByIdService(id, req.body);
-  sendResponse(res, { statusCode: 200, success: true, message: 'Course updated successfully', data: updatedCourse });
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Course updated successfully",
+    data: updatedCourse,
+  });
 });
 
-
-export { getAllCourse, createCourse, getCourseById, deleteCourseById, updateCourseById }
+export {
+  getAllCourse,
+  createCourse,
+  getCourseById,
+  deleteCourseById,
+  updateCourseById,
+};

@@ -12,7 +12,7 @@ const getAllStudents = asyncHandler(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: students.length === 0 ? 'No students found' : 'Students retrieved',
+    message: students.length === 0 ? 'No students found' : 'Students retrieved successfully',
     data: students,
     meta: pagination as any,
   });
