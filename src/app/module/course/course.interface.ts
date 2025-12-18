@@ -5,6 +5,7 @@ export interface ICourse {
   description?: string;
   price?: number;
   thumbnail?: string;
+  isFeatured?: boolean;
   modules: mongoose.Types.ObjectId[];
 }
 

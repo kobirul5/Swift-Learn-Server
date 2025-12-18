@@ -7,16 +7,17 @@ const courseSchema = new mongoose_1.Schema({
     description: { type: String, required: true },
     price: { type: Number, required: true },
     thumbnail: { type: String, required: true },
+    isFeatured: { type: Boolean, required: true, default: false },
     modules: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'Module',
+            ref: "Module",
             required: false,
-            default: []
-        }
-    ]
+            default: [],
+        },
+    ],
 }, {
     timestamps: true,
-    versionKey: false
+    versionKey: false,
 });
-exports.Course = (0, mongoose_1.model)('Course', courseSchema);
+exports.Course = (0, mongoose_1.model)("Course", courseSchema);
