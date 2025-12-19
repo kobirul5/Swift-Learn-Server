@@ -6,7 +6,7 @@ import { ApiError } from "../utils/ApiError";
 import handleZodError from "../../error/handleZodError";
 
 
-const config = {
+const envConfig = {
   NODE_ENV: process.env.NODE_ENV || "development",
 };
 
@@ -101,7 +101,7 @@ const GlobalErrorHandler = (
     success: false,
     message,
     errorSources,
-    stack: config.NODE_ENV === "development" ? err?.stack : undefined,
+    stack: envConfig.NODE_ENV === "development" ? err?.stack : undefined,
   });
 };
 

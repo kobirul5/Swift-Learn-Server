@@ -3,11 +3,19 @@ import { asyncHandler } from '../../utils/asyncHandler';
 import sendResponse from '../../../shared/sendResponse';
 
 import { AuthServices } from './auth.service';
-import config from '../../../config';
+import envConfig from '../../../envs';
 
 const createUser = asyncHandler(async (req: Request, res: Response) => {
-    console.log(req.body, "req.body");
     const result = await AuthServices.createUserIntoDb(req.body);
+    const { token } = result;
+
+    const cookieOptions = {
+        secure: envConfig.env === 'production',
+        httpOnly: true,
+    };
+
+    res.cookie('accessToken', token, cookieOptions);
+
     sendResponse(res, {
         statusCode: 201,
         success: true,
@@ -18,14 +26,15 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
 
 const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const result = await AuthServices.loginUser(req.body);
-    const { refreshToken, ...rest } = result;
+    const { refreshToken, token, ...rest } = result;
 
     const cookieOptions = {
-        secure: config.env === 'production',
+        secure: envConfig.env === 'production',
         httpOnly: true,
     };
 
     res.cookie('refreshToken', refreshToken, cookieOptions);
+    res.cookie('accessToken', token, cookieOptions);
 
     sendResponse(res, {
         statusCode: 200,

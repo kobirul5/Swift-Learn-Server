@@ -1,13 +1,39 @@
-import config from "../../../config";
 import { ApiError } from "../../utils/ApiError";
 import { User } from "../users/user.model";
-
-import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import { generateOtp } from "../../../helpers/generateOtp";
 import emailSender from "../../../helpers/emailSender";
-import { Secret } from "jsonwebtoken";
 import { registrationOtpTemplate } from "../../../helpers/template/registrationOtpTemplate";
 import { forgotPasswordTemplate } from "../../../helpers/template/forgotPasswordTemplate";
+
+const generateAccessToken = async (userId: string) => {
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new ApiError(501, "User not found");
+    }
+    const accessToken = user.generateAccessToken();
+
+    return accessToken;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    throw new ApiError(500, "Something is wrong while generating token");
+  }
+};
+
+const generateRefreshToken = async (userId: string) => {
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new ApiError(501, "User not found");
+    }
+    const refreshToken = user.generateRefreshToken();
+
+    return refreshToken;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    throw new ApiError(500, "Something is wrong while generating token");
+  }
+};
 
 const createUserIntoDb = async (payload: any) => {
   const { email, password, ...userData } = payload;
@@ -44,11 +70,7 @@ const createUserIntoDb = async (payload: any) => {
     console.error("Failed to send registration email", error);
   }
 
-  const token = jwtHelpers.generateToken(
-    { id: newUser._id, email: newUser.email, role: newUser.role },
-    config.jwt.jwt_secret as Secret,
-    config.jwt.expires_in!
-  );
+  const token = await generateAccessToken(newUser._id as string);
 
   return {
     user: newUser,
@@ -68,17 +90,10 @@ const loginUser = async (payload: { email: string; password: string }) => {
     throw new ApiError(401, "Password incorrect!");
   }
 
-  const accessToken = jwtHelpers.generateToken(
-    { id: user._id, email: user.email, role: user.role },
-    config.jwt.jwt_secret as Secret,
-    config.jwt.expires_in as string
-  );
+  const accessToken = await generateAccessToken(user._id as string);
+  const refreshToken = await generateRefreshToken(user._id as string);
 
-  const refreshToken = jwtHelpers.generateToken(
-    { id: user._id, email: user.email, role: user.role },
-    config.jwt.refresh_token_secret as Secret,
-    config.jwt.refresh_token_expires_in as string
-  );
+
 
   return {
     token: accessToken,

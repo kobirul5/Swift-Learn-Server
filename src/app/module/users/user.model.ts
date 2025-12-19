@@ -42,4 +42,15 @@ userSchema.methods.generateAccessToken = function () {
   )
 }
 
+userSchema.methods.generateRefreshToken = function () {
+  return jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      role: this.role
+    },
+    process.env.REFRESH_TOKEN_SECRET as string, { expiresIn: '1y' }
+  )
+}
+
 export const User = model('User', userSchema);

@@ -14,4 +14,10 @@ export default {
     refresh_token_secret: process.env.REFRESH_TOKEN_SECRET,
     refresh_token_expires_in: process.env.REFRESH_TOKEN_EXPIRES_IN,
   },
+  emailSender: {
+    smtp_server: process.env.SMTP_SERVER,
+    smtp_port: process.env.SMTP_PORT,
+    smtp_user: process.env.SMTP_USER,
+    smtp_pass: process.env.SMTP_PASS,
+  },
 };
