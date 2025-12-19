@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from "express"
 import cors from 'cors';
 import cookieParser from "cookie-parser"
 import router from "./router";
+import GlobalErrorHandler from "./app/middlewares/globalErrorHandler";
 
 
 const app: Application = express()
@@ -19,7 +20,8 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Routes
-app.use(router)
+app.use("/api/v1",router)
+app.use(GlobalErrorHandler)
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome Swift Learn Management')

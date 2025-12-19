@@ -6,6 +6,7 @@ import { AuthServices } from './auth.service';
 import config from '../../../config';
 
 const createUser = asyncHandler(async (req: Request, res: Response) => {
+    console.log(req.body, "req.body");
     const result = await AuthServices.createUserIntoDb(req.body);
     sendResponse(res, {
         statusCode: 201,
