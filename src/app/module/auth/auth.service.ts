@@ -140,7 +140,12 @@ const verifyForgotPasswordOtp = async (payload: {
     throw new ApiError(400, "Invalid or expired OTP");
   }
 
-  return { message: "OTP verification successful" };
+  await User.findByIdAndUpdate(user._id, { otp: 0, otpExpiresAt: null });
+
+  const accessToken = await generateAccessToken(user._id as string);
+  const refreshToken = await generateRefreshToken(user._id as string);
+
+  return { accessToken, refreshToken };
 };
 
 const verifyEmailOtp = async (payload: { email: string; otp: number }) => {
@@ -166,7 +171,10 @@ const verifyEmailOtp = async (payload: { email: string; otp: number }) => {
     isVerifyEmail: true,
   });
 
-  return { message: "Email verified successfully" };
+  const accessToken = await generateAccessToken(user._id as string);
+  const refreshToken = await generateRefreshToken(user._id as string);
+
+  return { accessToken, refreshToken };
 };
 
 const resetPassword = async (payload: { password: string; email: string }) => {

@@ -16,7 +16,7 @@ const emailSender = async (email: string, html: string, subject: string) => {
     });
 
     const info = await transporter.sendMail({
-        from: "<info@sendiate.com>",
+        from: envConfig.emailSender.smtp_user,
         to: email,
         subject: subject,
         html,

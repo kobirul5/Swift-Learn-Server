@@ -6,6 +6,7 @@ import { AuthServices } from './auth.service';
 import envConfig from '../../../envs';
 
 const createUser = asyncHandler(async (req: Request, res: Response) => {
+    console.log("HIT CREATE USER CONTROLLER");
     const result = await AuthServices.createUserIntoDb(req.body);
     const { token } = result;
 
@@ -20,7 +21,7 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
         statusCode: 201,
         success: true,
         message: 'User registered successfully',
-        data: result,
+        data: { ...result, },
     });
 });
 
@@ -40,7 +41,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
         statusCode: 200,
         success: true,
         message: 'User logged in successfully',
-        data: rest,
+        data: { ...rest, accessToken: token, refreshToken: refreshToken },
     });
 });
 
@@ -56,21 +57,32 @@ const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
 
 const verifyForgotPasswordOtp = asyncHandler(async (req: Request, res: Response) => {
     const result = await AuthServices.verifyForgotPasswordOtp(req.body);
+    const { refreshToken, accessToken } = result;
+
+    const cookieOptions = {
+        secure: envConfig.env === 'production',
+        httpOnly: true,
+    };
+
+    res.cookie('refreshToken', refreshToken, cookieOptions);
+    res.cookie('accessToken', accessToken, cookieOptions);
+
     sendResponse(res, {
         statusCode: 200,
         success: true,
         message: 'OTP verified successfully',
-        data: result
+        data: { ...result, accessToken, refreshToken }
     })
 })
 
 const verifyEmailOtp = asyncHandler(async (req: Request, res: Response) => {
     const result = await AuthServices.verifyEmailOtp(req.body);
+    const { refreshToken, accessToken } = result;
     sendResponse(res, {
         statusCode: 200,
         success: true,
         message: 'Email verified successfully',
-        data: result
+        data: { ...result, accessToken, refreshToken }
     })
 })
 

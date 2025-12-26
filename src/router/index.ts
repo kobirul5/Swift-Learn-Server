@@ -17,6 +17,10 @@ const moduleRoutes = [
     route: userRouter,
   },
   {
+    path: "/auth",
+    route: AuthRoutes,
+  },
+  {
     path: "/courses",
     route: courseRoute,
   },
@@ -36,10 +40,7 @@ const moduleRoutes = [
     path: "/lecture",
     route: lectureRoute,
   },
-  {
-    path: "/auth",
-    route: AuthRoutes,
-  }
+  
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
