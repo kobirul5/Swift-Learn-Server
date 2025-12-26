@@ -8,6 +8,7 @@ export interface IUser extends Document {
   role: 'admin' | 'student';
   otp?: number;
   otpExpiresAt?: Date;
+  refreshToken?: string | null;
   isVerifyEmail?: boolean;
   isPasswordCorrect(password: string): Promise<boolean>;
   generateAccessToken(): string;

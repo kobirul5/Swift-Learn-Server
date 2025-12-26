@@ -29,5 +29,6 @@ router.post("/verify-otp", AuthController.verifyForgotPasswordOtp);
 
 //verify-otp (email)
 router.post("/email-verify-otp", AuthController.verifyEmailOtp);
+router.post("/logout", checkAuth(), AuthController.logoutUser);
 
 export const AuthRoutes = router;

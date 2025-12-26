@@ -13,6 +13,9 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
     const cookieOptions = {
         secure: envConfig.env === 'production',
         httpOnly: true,
+        sameSite: 'strict' as const,
+        path: '/',
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     };
 
     res.cookie('accessToken', token, cookieOptions);
@@ -32,6 +35,9 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const cookieOptions = {
         secure: envConfig.env === 'production',
         httpOnly: true,
+        sameSite: 'strict' as const,
+        path: '/',
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     };
 
     res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -107,6 +113,29 @@ const changePassword = asyncHandler(async (req: Request, res: Response) => {
     })
 })
 
+const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+    const userId = (req as any).user._id;
+    const result = await AuthServices.logoutUser(userId);
+
+   const cookieOptions = {
+        secure: envConfig.env === 'production', 
+        httpOnly: true,
+        sameSite: 'strict' as const,            
+        path: '/',                              
+        expires: new Date(0),             
+    };
+
+    res.cookie('refreshToken', '', cookieOptions);
+    res.cookie('accessToken', '', cookieOptions);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'User logged out successfully',
+        data: result
+    })
+})
+
 export const AuthController = {
     createUser,
     loginUser,
@@ -115,4 +144,5 @@ export const AuthController = {
     verifyEmailOtp,
     resetPassword,
     changePassword,
+    logoutUser
 };

@@ -211,6 +211,18 @@ const changePassword = async (userId: string, payload: any) => {
   return { message: "Password changed successfully" };
 };
 
+const logoutUser = async (userId: string) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  user.refreshToken = null;
+  await user.save();
+
+  return { message: "User logged out successfully" };
+};
+
 export const AuthServices = {
   createUserIntoDb,
   loginUser,
@@ -219,4 +231,5 @@ export const AuthServices = {
   verifyEmailOtp,
   resetPassword,
   changePassword,
+  logoutUser
 };

@@ -23,4 +23,26 @@ const createModuleService = async (moduleData: any) => {
   return data;
 };
 
-export { getAllModuleService, createModuleService };
+const updateModuleService = async (id: string, payload: any) => {
+  const result = await Module.findByIdAndUpdate(id, payload, { new: true });
+  if (!result) {
+    throw new ApiError(404, "Module not found");
+  }
+  return result;
+};
+
+const deleteModuleService = async (id: string) => {
+  const result = await Module.findByIdAndDelete(id);
+  if (!result) {
+    throw new ApiError(404, "Module not found");
+  }
+
+  await Course.findByIdAndUpdate(
+    result.course,
+    { $pull: { modules: result._id } },
+    { new: true }
+  );
+  return result;
+};
+
+export const moduleService = { getAllModuleService, createModuleService, updateModuleService, deleteModuleService };
