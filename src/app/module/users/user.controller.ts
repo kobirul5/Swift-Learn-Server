@@ -1,16 +1,10 @@
 import { Request, Response } from "express";
-import { User } from "./user.model";
-
-import {
-  getUserByEmailService,
-  getAllUsersService,
-  getMeService,
-} from "./user.service";
 import sendResponse from "../../../shared/sendResponse";
+import { userService } from "./user.service";
 
-const getUserByEmail = async (req: Request, res: Response) => {
-  const email = req.params.email;
-  const user = await getUserByEmailService(email);
+const getUserById = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  const user = await userService.getUserByIdService(userId);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -20,7 +14,7 @@ const getUserByEmail = async (req: Request, res: Response) => {
 };
 
 const getAllUsers = async (req: Request, res: Response) => {
-  const data = await getAllUsersService();
+  const data = await userService.getAllUsersService();
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -31,7 +25,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 
 const getMe = async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
-  const result = await getMeService(userId);
+  const result = await userService.getMeService(userId);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -40,4 +34,4 @@ const getMe = async (req: Request, res: Response) => {
   });
 };
 
-export { getAllUsers, getUserByEmail, getMe };
+export const userController = { getAllUsers, getUserById, getMe };
