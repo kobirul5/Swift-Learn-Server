@@ -25,7 +25,7 @@ router.post("/reset-password", checkAuth(), AuthController.resetPassword);
 router.post("/forgot-password", AuthController.forgotPassword);
 
 //verify-otp (forgot password)
-router.post("/verify-otp", AuthController.verifyForgotPasswordOtp);
+router.post("/verify-otp", checkAuth(), AuthController.verifyOtp);
 
 //verify-otp (email)
 router.post("/email-verify-otp", AuthController.verifyEmailOtp);

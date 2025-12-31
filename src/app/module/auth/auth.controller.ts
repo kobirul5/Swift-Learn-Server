@@ -6,7 +6,7 @@ import { AuthServices } from './auth.service';
 import envConfig from '../../../envs';
 
 const createUser = asyncHandler(async (req: Request, res: Response) => {
-    console.log("HIT CREATE USER CONTROLLER");
+
     const result = await AuthServices.createUserIntoDb(req.body);
     const { token } = result;
 
@@ -61,8 +61,9 @@ const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
     });
 });
 
-const verifyForgotPasswordOtp = asyncHandler(async (req: Request, res: Response) => {
-    const result = await AuthServices.verifyForgotPasswordOtp(req.body);
+const verifyOtp = asyncHandler(async (req: Request, res: Response) => {
+    const userId = req?.user?._id;
+    const result = await AuthServices.verifyOtp({userId, ...req.body });
     const { refreshToken, accessToken } = result;
 
     const cookieOptions = {
@@ -140,7 +141,7 @@ export const AuthController = {
     createUser,
     loginUser,
     forgotPassword,
-    verifyForgotPasswordOtp,
+    verifyOtp,
     verifyEmailOtp,
     resetPassword,
     changePassword,

@@ -123,11 +123,11 @@ const forgotPassword = async (payload: { email: string }) => {
   return { otp };
 };
 
-const verifyForgotPasswordOtp = async (payload: {
-  email: string;
+const verifyOtp = async (payload: {
+  userId: string;
   otp: number;
 }) => {
-  const user = await User.findOne({ email: payload.email });
+  const user = await User.findOne({ _id: payload.userId });
   if (!user) {
     throw new ApiError(404, "User not found!");
   }
@@ -227,7 +227,7 @@ export const AuthServices = {
   createUserIntoDb,
   loginUser,
   forgotPassword,
-  verifyForgotPasswordOtp,
+  verifyOtp,
   verifyEmailOtp,
   resetPassword,
   changePassword,

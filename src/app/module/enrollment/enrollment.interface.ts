@@ -1,9 +1,8 @@
-import mongoose from 'mongoose';
+import { Types } from 'mongoose';
 
 export interface IEnrollment {
-  student: mongoose.Types.ObjectId;
-  progress: {
-    course: mongoose.Types.ObjectId;
-    completedLectures: mongoose.Types.ObjectId[];
-  }[];
+  student: Types.ObjectId;
+  course: Types.ObjectId;
+  paymentStatus: string;
+  completedLectures: Types.ObjectId[];
 }
