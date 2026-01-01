@@ -62,8 +62,7 @@ const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const verifyOtp = asyncHandler(async (req: Request, res: Response) => {
-    const userId = req?.user?._id;
-    const result = await AuthServices.verifyOtp({userId, ...req.body });
+    const result = await AuthServices.verifyOtp(req.body);
     const { refreshToken, accessToken } = result;
 
     const cookieOptions = {

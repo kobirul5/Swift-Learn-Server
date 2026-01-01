@@ -124,13 +124,14 @@ const forgotPassword = async (payload: { email: string }) => {
 };
 
 const verifyOtp = async (payload: {
-  userId: string;
+  email: string;
   otp: number;
 }) => {
-  const user = await User.findOne({ _id: payload.userId });
+  const user = await User.findOne({ email: payload.email });
   if (!user) {
     throw new ApiError(404, "User not found!");
   }
+
 
   if (
     user.otp !== payload.otp ||
