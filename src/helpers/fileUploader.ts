@@ -5,25 +5,19 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-/**
- * Cloudinary configuration
- */
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-/**
- * Multer configuration
- * Using memoryStorage so file buffer can be uploaded to Cloudinary
- */
+// Multer configuration
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-/**
- * Multer helpers
- */
+// Single and Multiple file upload handlers
 const uploadSingle = upload.single("profileImage");
 const uploadFile = upload.single("file");
 
@@ -49,7 +43,7 @@ const uploadToCloudinary = async (
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: "uploads",
+        folder: "swiftLearn",
         resource_type: "auto",
         use_filename: true,
         unique_filename: false,

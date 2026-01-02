@@ -10,12 +10,18 @@ import {
 } from "./course.service";
 
 const createCourse = asyncHandler(async (req: Request, res: Response) => {
-  const data = await createCourseService(req.body);
+  let courseData = req.body.data;
+
+  if (req.body.data) {
+    courseData = JSON.parse(req.body.data);
+  }
+
+  const result = await createCourseService(req.file, courseData);
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: "Course created successfully",
-    data,
+    data: result,
   });
 });
 
@@ -53,7 +59,13 @@ const deleteCourseById = asyncHandler(async (req: Request, res: Response) => {
 
 const updateCourseById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const updatedCourse = await updateCourseByIdService(id, req.body);
+  let courseData = req.body.data;
+
+  if (req.body.data) {
+    courseData = JSON.parse(req.body.data);
+  }
+
+  const updatedCourse = await updateCourseByIdService(id, courseData, req.file);
   sendResponse(res, {
     statusCode: 200,
     success: true,

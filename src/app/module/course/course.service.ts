@@ -2,8 +2,14 @@ import mongoose from 'mongoose'
 import { Course } from './course.model';
 import { Module } from '../courseModule/module.model';
 import { ApiError } from '../../utils/ApiError';
+import { fileUploader } from '../../../helpers/fileUploader';
+import { ICourse } from './course.interface';
 
-const createCourseService = async (courseData: any) => {
+const createCourseService = async (file: any, courseData: any) => {
+  if (file) {
+    const uploadedFile = await fileUploader.uploadToCloudinary(file);
+    courseData.thumbnail = uploadedFile.Location;
+  }
   const data = await Course.create(courseData);
   return data;
 };
@@ -16,7 +22,16 @@ const getCourseByIdService = async (id: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new ApiError(400, 'Invalid course ID');
   }
-  const data = await Course.findById(id);
+ const data = await Course.findById(id)
+  .populate({
+    path: 'modules',
+    options: { sort: { moduleNumber: 1 } },
+    populate: {
+      path: 'lectures',       // Module schema এর field
+      options: { sort: { lectureNumber: 1 } }, // optional order
+    },
+  });
+
   if (!data) throw new ApiError(404, 'Course Not Found');
   return data;
 };
@@ -37,9 +52,14 @@ const deleteCourseByIdService = async (id: string) => {
   return data;
 };
 
-const updateCourseByIdService = async (id: string, updatedData: any) => {
+const updateCourseByIdService = async (id: string, updatedData: ICourse, file?: any) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new ApiError(400, 'Invalid course ID');
+  }
+
+  if (file) {
+    const uploadedFile = await fileUploader.uploadToCloudinary(file);
+    updatedData.thumbnail = uploadedFile.Location;
   }
 
   const updatedCourse = await Course.findByIdAndUpdate(id, updatedData, {
