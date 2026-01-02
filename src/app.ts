@@ -1,18 +1,15 @@
 import express, { Application, NextFunction, Request, Response } from "express"
 import cors from 'cors';
-import { userRouter } from "./app/router/user.router"
-import { enrollmentRoute } from "./app/router/enrollment.router"
-import { courseRoute } from "./app/router/course.router"
 import cookieParser from "cookie-parser"
-import { studentsRouter } from "./app/router/students.router";
-import { moduleRoute } from "./app/router/module.router";
-import { lectureRoute } from "./app/router/lecture.route";
+import GlobalErrorHandler from "./app/middlewares/globalErrorHandler";
+import router from "./router";
 
 
 const app: Application = express()
 
 app.use(cors({
   origin: [
+    '*',
     'http://localhost:3000',
     'https://swift-learn-nu.vercel.app',
     'https://swift-learn-production.up.railway.app',
@@ -23,26 +20,23 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
-
-app.use('/api/users/', userRouter)
-app.use('/api/courses/', courseRoute)
-app.use('/api/enrollment/', enrollmentRoute)
-app.use('/api/students/', studentsRouter)
-app.use('/api/modules/', moduleRoute)
-app.use('/api/lecture/', lectureRoute)
-
-
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome Swift Learn Management')
 })
+// Routes
+app.use("/api/v1", router)
+app.use(GlobalErrorHandler)
 
-app.use((req:Request, res:Response, next:NextFunction) => {
+
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log("HIT APP.TS 404 HANDLER");
   res.status(404).json({
     success: false,
-    message: 'Route not found',
+    message: 'Route not found - MODIFIED MYSTERY',
   });
-  next() 
-}); 
+  next()
+});
 
 
 export default app;
