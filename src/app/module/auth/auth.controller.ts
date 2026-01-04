@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
 import sendResponse from '../../../shared/sendResponse';
 
 import { AuthServices } from './auth.service';
-import envConfig from '../../../envs';
+// import envConfig from '../../../envs';
 
 const createUser = asyncHandler(async (req: Request, res: Response) => {
 
@@ -11,7 +12,7 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
     const { token } = result;
 
     const cookieOptions = {
-        secure: envConfig.env === 'production',
+        secure: false,
         httpOnly: true,
         sameSite: 'strict' as const,
         path: '/',
@@ -33,7 +34,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { refreshToken, token, ...rest } = result;
 
     const cookieOptions = {
-        secure: envConfig.env === 'production',
+        secure: false,
         httpOnly: true,
         sameSite: 'strict' as const,
         path: '/',
@@ -66,7 +67,7 @@ const verifyOtp = asyncHandler(async (req: Request, res: Response) => {
     const { refreshToken, accessToken } = result;
 
     const cookieOptions = {
-        secure: envConfig.env === 'production',
+        secure: false,
         httpOnly: true,
     };
 
@@ -121,7 +122,7 @@ const logoutUser = asyncHandler(async (req: Request, res: Response) => {
     const result = await AuthServices.logoutUser(userId);
 
    const cookieOptions = {
-        secure: envConfig.env === 'production', 
+        secure: false, 
         httpOnly: true,
         sameSite: 'strict' as const,            
         path: '/',                              
