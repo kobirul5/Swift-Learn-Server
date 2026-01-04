@@ -14,7 +14,7 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
     const cookieOptions = {
         secure: false,
         httpOnly: true,
-        sameSite: 'strict' as const,
+        sameSite: 'lax' as const,
         path: '/',
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     };
@@ -34,9 +34,9 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { refreshToken, token, ...rest } = result;
 
     const cookieOptions = {
-        secure: false,
         httpOnly: true,
-        sameSite: 'strict' as const,
+        secure: false,
+      sameSite: 'lax' as const,
         path: '/',
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     };
