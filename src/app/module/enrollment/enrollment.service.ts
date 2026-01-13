@@ -8,6 +8,7 @@ const getAllEnrollmentService = async () => {
 };
 
 const createEnrollmentService = async (payload: any) => {
+  console.log(payload)
   const data = await Enrollment.create(payload);
   return data;
 };
