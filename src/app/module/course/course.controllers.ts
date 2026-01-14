@@ -26,12 +26,16 @@ const createCourse = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const getAllCourse = asyncHandler(async (req: Request, res: Response) => {
-  const data = await getAllCourseService();
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+
+  const result = await getAllCourseService(page, limit);
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: "Courses retrieved successfully",
-    data,
+    data: result.data,
+    meta: result.pagination,
   });
 });
 
