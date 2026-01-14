@@ -14,23 +14,38 @@ const createCourseService = async (file: any, courseData: any) => {
   return data;
 };
 
-const getAllCourseService = async () => {
-  return await Course.find();
+const getAllCourseService = async (page: number = 1, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+
+  const [data, total] = await Promise.all([
+    Course.find().skip(skip).limit(limit),
+    Course.countDocuments()
+  ]);
+
+  return {
+    data,
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit)
+    }
+  };
 };
 
 const getCourseByIdService = async (id: string) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new ApiError(400, 'Invalid course ID');
   }
- const data = await Course.findById(id)
-  .populate({
-    path: 'modules',
-    options: { sort: { moduleNumber: 1 } },
-    populate: {
-      path: 'lectures',       // Module schema এর field
-      options: { sort: { lectureNumber: 1 } }, // optional order
-    },
-  });
+  const data = await Course.findById(id)
+    .populate({
+      path: 'modules',
+      options: { sort: { moduleNumber: 1 } },
+      populate: {
+        path: 'lectures',       // Module schema এর field
+        options: { sort: { lectureNumber: 1 } }, // optional order
+      },
+    });
 
   if (!data) throw new ApiError(404, 'Course Not Found');
   return data;
