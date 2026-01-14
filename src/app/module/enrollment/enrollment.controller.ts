@@ -18,7 +18,8 @@ const getAllEnrollment = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const createEnrollment = asyncHandler(async (req: Request, res: Response) => {
-  const data = await createEnrollmentService(req.body);
+  const userId = req?.user?.id;
+  const data = await createEnrollmentService({data: req.body, userId});
   sendResponse(res, {
     statusCode: 200,
     success: true,

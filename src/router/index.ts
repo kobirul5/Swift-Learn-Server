@@ -9,6 +9,8 @@ import { AuthRoutes } from "../app/module/auth/auth.route";
 
 
 
+import { paymentRoutes } from "../app/module/payment/payment.router";
+
 const router = express.Router();
 
 const moduleRoutes = [
@@ -40,7 +42,11 @@ const moduleRoutes = [
     path: "/lecture",
     route: lectureRoute,
   },
-  
+  {
+    path: "/payment",
+    route: paymentRoutes,
+  },
+
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
