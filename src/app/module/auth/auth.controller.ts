@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
 import sendResponse from '../../../shared/sendResponse';
 
 import { AuthServices } from './auth.service';
-import envConfig from '../../../envs';
+// import envConfig from '../../../envs';
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 const createUser = asyncHandler(async (req: Request, res: Response) => {
 
@@ -11,9 +14,9 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
     const { token } = result;
 
     const cookieOptions = {
-        secure: envConfig.env === 'production',
+        secure: isProduction,
         httpOnly: true,
-        sameSite: 'strict' as const,
+        sameSite: isProduction ? 'none' as const : 'lax' as const,
         path: '/',
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     };
@@ -33,9 +36,9 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { refreshToken, token, ...rest } = result;
 
     const cookieOptions = {
-        secure: envConfig.env === 'production',
         httpOnly: true,
-        sameSite: 'strict' as const,
+        secure: isProduction,
+        sameSite: isProduction ? 'none' as const : 'lax' as const,
         path: '/',
         expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     };
@@ -66,8 +69,9 @@ const verifyOtp = asyncHandler(async (req: Request, res: Response) => {
     const { refreshToken, accessToken } = result;
 
     const cookieOptions = {
-        secure: envConfig.env === 'production',
+        secure: isProduction,
         httpOnly: true,
+        sameSite: isProduction ? 'none' as const : 'lax' as const,
     };
 
     res.cookie('refreshToken', refreshToken, cookieOptions);
@@ -120,10 +124,10 @@ const logoutUser = asyncHandler(async (req: Request, res: Response) => {
     const userId = (req as any).user._id;
     const result = await AuthServices.logoutUser(userId);
 
-    const cookieOptions = {
-        secure: envConfig.env === 'production',
+   const cookieOptions = {
+        secure: isProduction,
         httpOnly: true,
-        sameSite: 'strict' as const,
+        sameSite: isProduction ? 'none' as const : 'strict' as const,
         path: '/',
         expires: new Date(0),
     };
