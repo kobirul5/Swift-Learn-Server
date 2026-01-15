@@ -12,16 +12,15 @@ const getAllTestimonials = async (page: number = 1, limit: number = 10, searchTe
     const query: any = {};
 
     if (searchTerm) {
-        // Since user is populated, we might need a more complex search if searching by user name,
-        // but for now let's search in content.
         query.$or = [
+            { name: { $regex: searchTerm, $options: "i" } },
+            { designation: { $regex: searchTerm, $options: "i" } },
             { content: { $regex: searchTerm, $options: "i" } },
         ];
     }
 
     const [data, total] = await Promise.all([
         Testimonial.find(query)
-            .populate("user")
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit),
@@ -41,7 +40,6 @@ const getAllTestimonials = async (page: number = 1, limit: number = 10, searchTe
 
 const getApprovedTestimonials = async () => {
     const result = await Testimonial.find({ isApproved: true })
-        .populate("user")
         .sort({ createdAt: -1 });
     return result;
 };
@@ -51,7 +49,7 @@ const approveTestimonial = async (id: string) => {
         id,
         { isApproved: true },
         { new: true }
-    ).populate("user");
+    );
     return result;
 };
 

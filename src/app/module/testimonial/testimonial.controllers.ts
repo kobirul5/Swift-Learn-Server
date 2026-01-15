@@ -4,9 +4,12 @@ import { asyncHandler } from "../../utils/asyncHandler";
 import sendResponse from "../../../shared/sendResponse";
 
 const createTestimonial = asyncHandler(async (req: Request, res: Response) => {
+    const user = (req as any).user;
     const testimonialData = {
+        name: req.body.name || user?.name,
+        image: req.body.image || user?.image,
+        designation: req.body.designation || user?.education || "Student",
         ...req.body,
-        user: req.body.user || (req as any).user?._id,
     };
     const result = await TestimonialService.createTestimonial(testimonialData);
     sendResponse(res, {
