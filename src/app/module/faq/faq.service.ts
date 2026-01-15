@@ -6,9 +6,32 @@ const createFaq = async (payload: IFaq) => {
     return result;
 };
 
-const getAllFaqs = async () => {
-    const result = await Faq.find().sort({ createdAt: -1 });
-    return result;
+const getAllFaqs = async (page: number = 1, limit: number = 10, searchTerm?: string) => {
+    const skip = (page - 1) * limit;
+
+    const query: any = {};
+
+    if (searchTerm) {
+        query.$or = [
+            { question: { $regex: searchTerm, $options: "i" } },
+            { answer: { $regex: searchTerm, $options: "i" } },
+        ];
+    }
+
+    const [data, total] = await Promise.all([
+        Faq.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
+        Faq.countDocuments(query),
+    ]);
+
+    return {
+        data,
+        meta: {
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+        },
+    };
 };
 
 const getFaqById = async (id: string) => {

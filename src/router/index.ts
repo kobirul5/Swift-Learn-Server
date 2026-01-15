@@ -10,6 +10,7 @@ import { AuthRoutes } from "../app/module/auth/auth.route";
 
 
 import { FaqRoutes } from "../app/module/faq/faq.route";
+import { ContactRoutes } from "../app/module/contact/contact.route";
 import { paymentRoutes } from "../app/module/payment/payment.router";
 import { TestimonialRoutes } from "../app/module/testimonial/testimonial.router";
 
@@ -55,6 +56,10 @@ const moduleRoutes = [
   {
     path: "/faqs",
     route: FaqRoutes,
+  },
+  {
+    path: "/contacts",
+    route: ContactRoutes,
   },
 ];
 
