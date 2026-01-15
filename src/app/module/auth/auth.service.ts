@@ -90,6 +90,10 @@ const loginUser = async (payload: { email: string; password: string }) => {
     throw new ApiError(401, "Password incorrect!");
   }
 
+  if (!user.isVerifyEmail) {
+    throw new ApiError(401, "Please verify your email!");
+  }
+
   const accessToken = await generateAccessToken(user._id as string);
   const refreshToken = await generateRefreshToken(user._id as string);
 
@@ -154,8 +158,6 @@ const verifyEmailOtp = async (payload: { email: string; otp: number }) => {
   if (!user) {
     throw new ApiError(404, "User not found!");
   }
-
-  // Assuming verify email just checks OTP for now as User model doesn't have isVerifyEmail
   // We will just verify OTP against Auth model
   if (
     user.otp !== payload.otp ||
@@ -167,9 +169,9 @@ const verifyEmailOtp = async (payload: { email: string; otp: number }) => {
 
   // Clear OTP and set Verified
   await User.findByIdAndUpdate(user._id, {
+    isVerifyEmail: true,
     otp: 0,
     otpExpiresAt: null,
-    isVerifyEmail: true,
   });
 
   const accessToken = await generateAccessToken(user._id as string);
@@ -231,6 +233,28 @@ const logoutUser = async (userId: string) => {
   return { message: "User logged out successfully" };
 };
 
+const resendOtp = async (payload: { email: string; type: "registration" | "forgot-password" }) => {
+  const user = await User.findOne({ email: payload.email });
+  if (!user) {
+    throw new ApiError(404, "User not found!");
+  }
+
+  const otp = generateOtp(4);
+  const otpExpiresAt = new Date(Date.now() + (payload.type === "forgot-password" ? 15 : 5) * 60 * 1000);
+
+  try {
+    const html = payload.type === "forgot-password" ? forgotPasswordTemplate(otp) : registrationOtpTemplate(otp);
+    const subject = payload.type === "forgot-password" ? "Forgot Password OTP" : "User Email Verification OTP";
+    await emailSender(user.email, html, subject);
+  } catch (error) {
+    console.error("Failed to resend OTP email", error);
+  }
+
+  await User.findByIdAndUpdate(user._id, { otp, otpExpiresAt });
+
+  return { message: "OTP resent successfully" };
+};
+
 export const AuthServices = {
   createUserIntoDb,
   loginUser,
@@ -239,5 +263,6 @@ export const AuthServices = {
   verifyEmailOtp,
   resetPassword,
   changePassword,
-  logoutUser
+  logoutUser,
+  resendOtp
 };

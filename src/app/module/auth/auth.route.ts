@@ -25,10 +25,14 @@ router.post("/reset-password", checkAuth(), AuthController.resetPassword);
 router.post("/forgot-password", AuthController.forgotPassword);
 
 //verify-otp (forgot password)
-router.post("/verify-otp", AuthController.verifyOtp);
+router.post("/verify-otp", AuthController.verifyEmailOtp);
 
 //verify-otp (email)
 router.post("/email-verify-otp", AuthController.verifyEmailOtp);
+
+//resend-otp
+router.post("/resend-otp", AuthController.resendOtp);
+
 router.post("/logout", checkAuth(), AuthController.logoutUser);
 
 export const AuthRoutes = router;
