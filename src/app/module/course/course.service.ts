@@ -14,12 +14,31 @@ const createCourseService = async (file: any, courseData: any) => {
   return data;
 };
 
-const getAllCourseService = async (page: number = 1, limit: number = 10) => {
+const getAllCourseService = async (
+  page: number = 1,
+  limit: number = 10,
+  searchTerm?: string,
+  category?: string
+) => {
   const skip = (page - 1) * limit;
 
+  // Build query
+  const query: any = {};
+
+  if (searchTerm) {
+    query.$or = [
+      { title: { $regex: searchTerm, $options: 'i' } },
+      { instructor: { $regex: searchTerm, $options: 'i' } },
+    ];
+  }
+
+  if (category && category !== 'All') {
+    query.category = category;
+  }
+
   const [data, total] = await Promise.all([
-    Course.find().skip(skip).limit(limit),
-    Course.countDocuments()
+    Course.find(query).skip(skip).limit(limit),
+    Course.countDocuments(query)
   ]);
 
   return {

@@ -100,7 +100,7 @@ const resetPassword = asyncHandler(async (req: Request, res: Response) => {
 
     const userId = (req as any).user._id; // Assuming auth middleware attaches user
 
-    const result = await AuthServices.resetPassword({userId, ...req.body});
+    const result = await AuthServices.resetPassword({ userId, ...req.body });
     sendResponse(res, {
         statusCode: 200,
         success: true,
@@ -143,6 +143,16 @@ const logoutUser = asyncHandler(async (req: Request, res: Response) => {
     })
 })
 
+const resendOtp = asyncHandler(async (req: Request, res: Response) => {
+    const result = await AuthServices.resendOtp(req.body);
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'OTP resent successfully',
+        data: result,
+    });
+});
+
 export const AuthController = {
     createUser,
     loginUser,
@@ -151,5 +161,6 @@ export const AuthController = {
     verifyEmailOtp,
     resetPassword,
     changePassword,
-    logoutUser
+    logoutUser,
+    resendOtp
 };

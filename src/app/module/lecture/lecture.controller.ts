@@ -8,7 +8,16 @@ import {
 } from './lecture.service'
 
 const createLecture = asyncHandler(async (req: Request, res: Response) => {
-  const newLecture = await createLectureService(req.body);
+  let lectureData = req.body;
+  if (req.body.data) {
+    try {
+      lectureData = JSON.parse(req.body.data);
+    } catch (error) {
+      // fallback or handle error
+    }
+  }
+
+  const newLecture = await createLectureService(lectureData, req.file);
   sendResponse(res, { statusCode: 200, success: true, message: 'Lecture created successfully', data: newLecture });
 })
 

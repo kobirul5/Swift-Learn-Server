@@ -28,14 +28,21 @@ const createCourse = asyncHandler(async (req: Request, res: Response) => {
 const getAllCourse = asyncHandler(async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
+  const searchTerm = req.query.searchTerm as string;
+  const category = req.query.category as string;
 
-  const result = await getAllCourseService(page, limit);
+  const result = await getAllCourseService(page, limit, searchTerm, category);
   sendResponse(res, {
     statusCode: 200,
     success: true,
     message: "Courses retrieved successfully",
     data: result.data,
-    meta: result.pagination,
+    meta: {
+      page: result.pagination.page,
+      limit: result.pagination.limit,
+      total: result.pagination.total,
+      totalPage: result.pagination.totalPages,
+    },
   });
 });
 

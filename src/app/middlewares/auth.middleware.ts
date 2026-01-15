@@ -27,6 +27,10 @@ export const checkAuth = (...roles: string[]) => {
         return next(new ApiError(404, "User not found!"));
       }
 
+      if (!user.isVerifyEmail) {
+        return next(new ApiError(401, "Please verify your email!"));
+      }
+
       if (roles.length && !roles.includes(user.role)) {
         return next(new ApiError(403, "Forbidden!"));
       }
