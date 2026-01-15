@@ -213,8 +213,6 @@ const resetPassword = async (payload: { password: string; userId: string }) => {
   user.password = payload.password; // Pre-save hook will hash it
   await user.save();
 
-  await user.save();
-
   await User.findByIdAndUpdate(user._id, { otp: 0, otpExpiresAt: null });
 
   return { message: "Password reset successfully" };
@@ -222,6 +220,11 @@ const resetPassword = async (payload: { password: string; userId: string }) => {
 
 const changePassword = async (userId: string, payload: any) => {
   const { oldPassword, newPassword } = payload;
+
+  if (!oldPassword || !newPassword) {
+    throw new ApiError(400, "Old password and new password are required");
+  }
+
   const user = await User.findById(userId);
   if (!user) {
     throw new ApiError(404, "User not found");

@@ -1,3 +1,4 @@
+import { fileUploader } from "../../../helpers/fileUploader";
 import { ApiError } from "../../utils/ApiError";
 import { User } from "./user.model";
 
@@ -20,4 +21,17 @@ const getMeService = async (userId: string) => {
   return user;
 };
 
-export const userService = { getMeService, getUserByIdService, getAllUsersService };
+const updateMeService = async (userId: string, payload: Partial<any>, file?: any) => {
+  const user = await User.findById(userId);
+  if (!user) throw new ApiError(404, "User not found");
+
+  if (file) {
+    const uploadResult = await fileUploader.uploadToCloudinary(file);
+    payload.image = uploadResult.Location;
+  }
+
+  const result = await User.findByIdAndUpdate(userId, payload, { new: true }).select('-password -otp -otpExpiresAt -isVerifyEmail ');
+  return result;
+}
+
+export const userService = { getMeService, getUserByIdService, getAllUsersService, updateMeService };
