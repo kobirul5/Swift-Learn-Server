@@ -4,7 +4,8 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  image?: string
+  image?: string;
+  education?: string;
   role: 'admin' | 'student';
   otp?: number;
   otpExpiresAt?: Date;

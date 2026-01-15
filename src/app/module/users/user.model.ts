@@ -9,11 +9,12 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
     image: { type: String, default: "" },
+    education: { type: String, default: "" },
     role: { type: String, enum: ['admin', 'student'], default: 'student' },
     otp: { type: Number, default: 0 },
     otpExpiresAt: { type: Date, default: null },
     isVerifyEmail: { type: Boolean, default: false },
-    refreshToken: {type: String, default: null}
+    refreshToken: { type: String, default: null }
   },
   {
     timestamps: true,
