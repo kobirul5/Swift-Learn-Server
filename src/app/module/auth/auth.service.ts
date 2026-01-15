@@ -91,6 +91,23 @@ const loginUser = async (payload: { email: string; password: string }) => {
   }
 
   if (!user.isVerifyEmail) {
+    const otp = generateOtp(4);
+    const otpExpires = new Date(Date.now() + 5 * 60 * 1000); // 5 mins
+
+    await User.findByIdAndUpdate(user._id, {
+      otp,
+      otpExpiresAt: otpExpires,
+    });
+
+    try {
+      await emailSender(
+        user.email,
+        registrationOtpTemplate(otp),
+        "User Email Verification OTP"
+      );
+    } catch (error) {
+      console.error("Failed to send login verification email", error);
+    }
     throw new ApiError(401, "Please verify your email!");
   }
 
