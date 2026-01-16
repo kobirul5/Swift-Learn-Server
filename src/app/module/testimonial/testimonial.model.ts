@@ -3,7 +3,9 @@ import { ITestimonial } from "./testimonial.interface";
 
 const testimonialSchema = new Schema<ITestimonial>(
     {
-        user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+        name: { type: String, required: true },
+        image: { type: String, required: true },
+        designation: { type: String, required: true },
         rating: { type: Number, required: true, min: 1, max: 5 },
         content: { type: String, required: true },
         accentColor: { type: String, required: true, default: "bg-purple-500" },

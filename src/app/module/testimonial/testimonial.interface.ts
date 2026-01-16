@@ -1,7 +1,9 @@
 import { Document, Types } from "mongoose";
 
 export interface ITestimonial extends Document {
-    user: Types.ObjectId;
+    name: string;
+    image: string;
+    designation: string;
     rating: number;
     content: string;
     accentColor: string;
