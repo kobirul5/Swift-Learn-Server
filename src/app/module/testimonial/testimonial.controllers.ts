@@ -45,13 +45,25 @@ const getApprovedTestimonials = asyncHandler(async (req: Request, res: Response)
     });
 });
 
-const approveTestimonial = asyncHandler(async (req: Request, res: Response) => {
+const getSingleTestimonial = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await TestimonialService.approveTestimonial(id);
+    const result = await TestimonialService.getSingleTestimonial(id);
     sendResponse(res, {
         statusCode: 200,
         success: true,
-        message: "Testimonial approved successfully",
+        message: "Testimonial retrieved successfully",
+        data: result,
+    });
+});
+
+const updateTestimonialStatus = asyncHandler(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { isApproved } = req.body;
+    const result = await TestimonialService.updateTestimonialStatus(id, isApproved);
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: `Testimonial ${result?.isApproved ? "approved" : "unapproved"} successfully`,
         data: result,
     });
 });
@@ -71,6 +83,7 @@ export const TestimonialController = {
     createTestimonial,
     getAllTestimonials,
     getApprovedTestimonials,
-    approveTestimonial,
+    updateTestimonialStatus,
+    getSingleTestimonial,
     deleteTestimonial,
 };

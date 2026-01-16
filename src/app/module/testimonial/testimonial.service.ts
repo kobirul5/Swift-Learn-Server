@@ -44,10 +44,15 @@ const getApprovedTestimonials = async () => {
     return result;
 };
 
-const approveTestimonial = async (id: string) => {
+const getSingleTestimonial = async (id: string) => {
+    const result = await Testimonial.findById(id);
+    return result;
+};
+
+const updateTestimonialStatus = async (id: string, isApproved: boolean) => {
     const result = await Testimonial.findByIdAndUpdate(
         id,
-        { isApproved: true },
+        { isApproved },
         { new: true }
     );
     return result;
@@ -62,6 +67,7 @@ export const TestimonialService = {
     createTestimonial,
     getAllTestimonials,
     getApprovedTestimonials,
-    approveTestimonial,
+    updateTestimonialStatus,
+    getSingleTestimonial,
     deleteTestimonial,
 };

@@ -22,6 +22,7 @@ const contactSchema = new Schema<IContact>(
     },
     {
         timestamps: true,
+        versionKey: false,
     }
 );
 
