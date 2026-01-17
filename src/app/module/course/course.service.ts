@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from 'mongoose'
 import { Course } from './course.model';
 import { Module } from '../courseModule/module.model';
@@ -15,8 +16,8 @@ const createCourseService = async (file: any, courseData: any) => {
 };
 
 const getAllCourseService = async (
-  page: number = 1,
-  limit: number = 10,
+  page: number,
+  limit: number ,
   searchTerm?: string,
   category?: string
 ) => {
