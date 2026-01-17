@@ -21,6 +21,7 @@ const getMeService = async (userId: string) => {
   return user;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateMeService = async (userId: string, payload: Partial<any>, file?: any) => {
   const user = await User.findById(userId);
   if (!user) throw new ApiError(404, "User not found");
