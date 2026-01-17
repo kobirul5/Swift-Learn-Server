@@ -17,11 +17,11 @@ const getAllStudentsService = async ({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filter: any = {
-    role: { $ne: 'admin' }, // admin বাদ
-    status: { $ne: 'deleted' }, // deleted বাদ
+    role: { $ne: 'admin' }, 
+    status: { $ne: 'deleted' },
   };
 
-  // status filter (active / banned / inactive)
+  // status filter (
   if (status) {
     filter.status = status;
   }
@@ -52,4 +52,17 @@ const getAllStudentsService = async ({
     },
   };
 };
-export { getAllStudentsService };
+
+
+const getSingleStudent = async (studentId: string) => {
+
+  const student = await User.findById({ _id: studentId }).select('-password');
+  if (!student) throw new Error('Student not found');
+  return student;
+};
+
+
+export const studentService ={
+   getAllStudentsService,
+  getSingleStudent,
+  };

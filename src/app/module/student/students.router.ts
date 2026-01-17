@@ -1,8 +1,10 @@
 import express from 'express';
-import { getAllStudents } from '../student/student.controller';
-
 import { checkAuth } from '../../middlewares/auth.middleware';
+import { studentController } from './student.controller';
 
-export const studentsRouter = express.Router()
+ const route = express.Router()
 
-studentsRouter.get('/', checkAuth('admin'), getAllStudents)
+route.get('/', checkAuth('admin'), studentController.getAllStudents)
+route.get('/:id', checkAuth('admin'), studentController.getSingleStudent)
+
+export const studentsRouter = route
