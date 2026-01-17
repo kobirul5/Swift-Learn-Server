@@ -6,8 +6,9 @@ export interface IUser extends Document {
   password: string;
   image?: string;
   education?: string;
-  role: 'admin' | 'student';
+  role: 'admin' | 'student' | 'user';
   otp?: number;
+  status?: 'active' | 'inactive' | 'banned' | 'deleted';
   otpExpiresAt?: Date;
   refreshToken?: string | null;
   isVerifyEmail?: boolean;
