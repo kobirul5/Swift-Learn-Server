@@ -1,13 +1,16 @@
 import express from 'express'
-import { createEnrollment, getAllEnrollment, getStudentEnrollmentAndCourse } from './enrollment.controller'
+
 
 
 
 import { checkAuth } from '../../middlewares/auth.middleware'
+import { enrollmentController } from './enrollment.controller'
 
 
-export const enrollmentRoute = express.Router()
+ const route = express.Router()
 
-enrollmentRoute.get('/', checkAuth('admin'), getAllEnrollment)
-enrollmentRoute.post('/', checkAuth(), createEnrollment)
-enrollmentRoute.get('/:studentId', checkAuth('admin', 'student'), getStudentEnrollmentAndCourse)
+route.get('/', checkAuth('admin'), enrollmentController.getAllEnrollment)
+route.post('/', checkAuth(), enrollmentController.createEnrollment)
+route.get('/:studentId', checkAuth('admin', 'student'), enrollmentController.getStudentEnrollmentAndCourse)
+
+export const enrollmentRouter = route

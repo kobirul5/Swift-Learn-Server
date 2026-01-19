@@ -1,4 +1,4 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { IEnrollment } from './enrollment.interface';
 
 const enrollmentSchema = new Schema<IEnrollment>(

@@ -1,14 +1,10 @@
 import { Request, Response } from "express";
 import sendResponse from "../../../shared/sendResponse";
 import { asyncHandler } from "../../utils/asyncHandler";
-import {
-  getAllEnrollmentService,
-  createEnrollmentService,
-  getStudentEnrollmentAndCourseService,
-} from "./enrollment.service";
+import { enrollmentService } from "./enrollment.service";
 
 const getAllEnrollment = asyncHandler(async (req: Request, res: Response) => {
-  const data = await getAllEnrollmentService();
+  const data = await enrollmentService.getAllEnrollmentService();
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -19,7 +15,7 @@ const getAllEnrollment = asyncHandler(async (req: Request, res: Response) => {
 
 const createEnrollment = asyncHandler(async (req: Request, res: Response) => {
   const userId = req?.user?.id;
-  const data = await createEnrollmentService({data: req.body, userId});
+  const data = await enrollmentService.createEnrollmentService({data: req.body, userId});
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -31,7 +27,7 @@ const createEnrollment = asyncHandler(async (req: Request, res: Response) => {
 const getStudentEnrollmentAndCourse = asyncHandler(
   async (req: Request, res: Response) => {
     const { studentId } = req.params;
-    const courses = await getStudentEnrollmentAndCourseService(studentId);
+    const courses = await enrollmentService.getStudentEnrollmentAndCourseService(studentId);
     sendResponse(res, {
       statusCode: 200,
       success: true,
@@ -41,4 +37,4 @@ const getStudentEnrollmentAndCourse = asyncHandler(
   }
 );
 
-export { getAllEnrollment, getStudentEnrollmentAndCourse, createEnrollment };
+export const enrollmentController ={ getAllEnrollment, getStudentEnrollmentAndCourse, createEnrollment };

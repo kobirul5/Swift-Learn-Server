@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Lecture } from './lecture.model';
 import { Module } from '../courseModule/module.model';
 import { ApiError } from '../../utils/ApiError';
-
 import { fileUploader } from '../../../helpers/fileUploader';
 
-export const createLectureService = async (payload: any, file?: Express.Multer.File) => {
+ const createLectureService = async (payload: any, file?: Express.Multer.File) => {
   const { module, title, notes } = payload;
   let { videoUrl } = payload;
 
@@ -29,14 +29,44 @@ export const createLectureService = async (payload: any, file?: Express.Multer.F
   return newLecture;
 };
 
-export const getAllLectureService = async (moduleId: string) => {
+ const getAllLectureService = async (moduleId: string) => {
   return await Lecture.find({ module: moduleId });
 };
 
-export const deleteLectureService = async (id: string) => {
+ const deleteLectureService = async (id: string) => {
   const data = await Lecture.findByIdAndDelete(id);
   if (data) {
     await Module.findByIdAndUpdate(data.module, { $pull: { lectures: data._id } }, { new: true });
   }
   return data;
+};
+
+const getSingleLecture = async (id: string) => {
+
+  const lecture = await Lecture.findById(id);
+  if (!lecture) {
+    throw new ApiError(404, 'Lecture not found');
+  }
+
+  const result = await Lecture.findByIdAndUpdate(id, {isLocked: false}, { new: true });
+  if (!result) {
+    throw new ApiError(404, 'Lecture not found');
+  }
+
+  return result;
+};
+
+const updateLectureIsLocked = async (id: string) => {
+  console.log(id);
+  const result = await Lecture.findByIdAndUpdate(id, { isLocked: false }, { new: true });
+  return result;
+}
+
+
+export const lectureService = {
+  createLectureService,
+  getAllLectureService,
+  deleteLectureService,
+  getSingleLecture,
+  updateLectureIsLocked
 };

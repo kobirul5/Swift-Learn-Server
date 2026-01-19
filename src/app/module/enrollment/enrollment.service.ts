@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Enrollment } from './enrollment.model';
 import { Course } from '../course/course.model';
@@ -14,7 +15,13 @@ const createEnrollmentService = async (payload: any) => {
   const courseId = payload.data.course;
   const userId = payload.userId;
 
-  console.log(payload)
+  // const existsEnrolment = await Enrollment.findOne({ course: courseId, student: userId });
+
+  // if (existsEnrolment) {
+  //   throw new ApiError(400, 'You are already enrolled in this course');
+  
+  // }
+
   if (!userId || !courseId) {
     throw new ApiError(400, 'User and Course ID are required');
   }
@@ -118,4 +125,4 @@ const getStudentEnrollmentAndCourseService = async (studentId: string) => {
   return courses;
 };
 
-export { getAllEnrollmentService, createEnrollmentService, getStudentEnrollmentAndCourseService };
+export const enrollmentService = { getAllEnrollmentService, createEnrollmentService, getStudentEnrollmentAndCourseService };
