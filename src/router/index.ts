@@ -2,7 +2,6 @@ import express from "express";
 import { moduleRoute } from "../app/module/courseModule/module.router";
 import { lectureRoute } from "../app/module/lecture/lecture.route";
 import { userRouter } from "../app/module/users/user.router";
-import { enrollmentRoute } from "../app/module/enrollment/enrollment.router";
 import { studentsRouter } from "../app/module/student/students.router";
 import { AuthRoutes } from "../app/module/auth/auth.route";
 import { FaqRoutes } from "../app/module/faq/faq.route";
@@ -10,6 +9,7 @@ import { ContactRoutes } from "../app/module/contact/contact.route";
 import { paymentRoutes } from "../app/module/payment/payment.router";
 import { TestimonialRoutes } from "../app/module/testimonial/testimonial.router";
 import { courseRouter } from "../app/module/course/course.router";
+import { enrollmentRouter } from "../app/module/enrollment/enrollment.router";
 
 const router = express.Router();
 
@@ -28,7 +28,7 @@ const moduleRoutes = [
   },
   {
     path: "/enrollment",
-    route: enrollmentRoute,
+    route: enrollmentRouter,
   },
   {
     path: "/students",
