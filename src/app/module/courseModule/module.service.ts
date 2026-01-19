@@ -10,6 +10,7 @@ const getAllModuleService = async (courseId: string) => {
   return modules;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createModuleService = async (moduleData: any) => {
   const data = await Module.create(moduleData);
   if (!data) throw new ApiError(500, 'Module not created');
@@ -23,6 +24,7 @@ const createModuleService = async (moduleData: any) => {
   return data;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateModuleService = async (id: string, payload: any) => {
   const result = await Module.findByIdAndUpdate(id, payload, { new: true });
   if (!result) {
