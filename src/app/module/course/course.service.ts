@@ -17,9 +17,10 @@ const createCourseService = async (file: any, courseData: any) => {
 
 const getAllCourseService = async (
   page: number,
-  limit: number ,
+  limit: number,
   searchTerm?: string,
-  category?: string
+  category?: string,
+  isFeatured?: string
 ) => {
   const skip = (page - 1) * limit;
 
@@ -35,6 +36,10 @@ const getAllCourseService = async (
 
   if (category && category !== 'All') {
     query.category = category;
+  }
+
+  if (isFeatured) {
+    query.isFeatured = isFeatured === 'true';
   }
 
   const [data, total] = await Promise.all([
