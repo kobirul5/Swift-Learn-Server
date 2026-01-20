@@ -27,7 +27,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use("/api/v1", router)
 app.use(GlobalErrorHandler)
 
-
+// 404 Handler
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log("HIT APP.TS 404 HANDLER");

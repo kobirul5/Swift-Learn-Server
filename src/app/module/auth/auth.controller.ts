@@ -53,7 +53,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
         data: { ...rest, accessToken: token, refreshToken: refreshToken },
     });
 });
-
+// forgot password
 const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
     const result = await AuthServices.forgotPassword(req.body);
     sendResponse(res, {
