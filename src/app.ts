@@ -23,7 +23,7 @@ app.use(cookieParser())
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome Swift Learn Management')
 })
-// Routes
+// Routes 
 app.use("/api/v1", router)
 app.use(GlobalErrorHandler)
 

@@ -30,8 +30,9 @@ const getAllCourse = asyncHandler(async (req: Request, res: Response) => {
   const limit = parseInt(req.query.limit as string) || 10;
   const searchTerm = req.query.searchTerm as string;
   const category = req.query.category as string;
+  const isFeatured = req.query.isFeatured as string;
 
-  const result = await getAllCourseService(page, limit, searchTerm, category);
+  const result = await getAllCourseService(page, limit, searchTerm, category, isFeatured);
   sendResponse(res, {
     statusCode: 200,
     success: true,
