@@ -8,7 +8,8 @@
     "start": "node dist/server.js",
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "stripe:listen": "stripe listen --forward-to localhost:5000/webhook/stripe"
   },
   "keywords": [],
   "author": "",

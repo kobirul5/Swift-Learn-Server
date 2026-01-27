@@ -14,6 +14,23 @@ const createPayment = asyncHandler(async (req: Request, res: Response) => {
     });
 });
 
+const confirmationPayment = asyncHandler(async (req: Request, res: Response) => {
+
+    console.log("---------------------------from webhokk controller");
+    
+    const signature = req.headers['stripe-signature'];
+
+    const result = await paymentService.confirmationPaymentService(req.body, signature as string);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Payment verified successfully",
+        data: result,
+    });
+});
+
 export const paymentController = {
     createPayment,
+    confirmationPayment
 };

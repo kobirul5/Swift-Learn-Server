@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from "cookie-parser"
 import GlobalErrorHandler from "./app/middlewares/globalErrorHandler";
 import router from "./router";
+import { paymentController } from "./app/module/payment/payment.controller";
 
 
 const app: Application = express()
@@ -17,6 +18,7 @@ app.use(cors({
   ],
   credentials: true
 }))
+app.post('/webhook/stripe', express.raw({ type: 'application/json' }), paymentController.confirmationPayment)
 app.use(express.json())
 app.use(cookieParser())
 
