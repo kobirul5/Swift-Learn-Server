@@ -19,15 +19,16 @@ const confirmationPaymentService = async (payload: any, signature: string) => {
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object;
-
         const transactionId = session.id;
 
         result = await Payment.findOneAndUpdate({ transactionId }, { status: 'completed' });
+        console.log(result)
         if (result) {
-            await Enrollment.findOneAndUpdate(
+           const enrollment = await Enrollment.findOneAndUpdate(
                 { course: result.course, student: result.user },
                 { paymentStatus: 'completed' }
             )
+            console.log(enrollment)
         }
     }
 
