@@ -41,7 +41,7 @@ const createEnrollmentService = async (payload: any) => {
 
     // 1. Create Stripe Checkout Session
     const stripeSession = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+   payment_method_types: ['card', 'cashapp'],
       line_items: [
         {
           price_data: {
