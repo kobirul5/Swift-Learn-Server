@@ -197,18 +197,20 @@ const verifyEmailOtp = async (payload: { email: string; otp: number }) => {
   return { accessToken, refreshToken };
 };
 
-const resetPassword = async (payload: { password: string; userId: string }) => {
+const resetPassword = async (payload: { password: string; email: string }) => {
 
   if (!payload.password) {
     throw new ApiError(400, "Password is required");
   }
 
-  const user = await User.findById(payload.userId);
+  if (!payload.email) {
+    throw new ApiError(400, "Email is required");
+  }
+
+  const user = await User.findOne({ email: payload.email });
   if (!user) {
     throw new ApiError(404, "User not found!");
   }
-
-
 
   user.password = payload.password; // Pre-save hook will hash it
   await user.save();

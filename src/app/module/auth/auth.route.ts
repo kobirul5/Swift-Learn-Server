@@ -18,8 +18,8 @@ router.put(
     AuthController.changePassword
 );
 
-//reset password
-router.post("/reset-password", checkAuth(), AuthController.resetPassword);
+//reset password (after OTP verification)
+router.post("/reset-password", AuthController.resetPassword);
 
 //forgot password
 router.post("/forgot-password", AuthController.forgotPassword);

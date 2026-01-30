@@ -10,6 +10,7 @@ import { paymentRoutes } from "../app/module/payment/payment.router";
 import { TestimonialRoutes } from "../app/module/testimonial/testimonial.router";
 import { courseRouter } from "../app/module/course/course.router";
 import { enrollmentRouter } from "../app/module/enrollment/enrollment.router";
+import { InstructorRoutes } from "../app/module/instructor/instructor.router";
 
 const router = express.Router();
 
@@ -57,6 +58,10 @@ const moduleRoutes = [
   {
     path: "/contacts",
     route: ContactRoutes,
+  },
+  {
+    path: "/instructors",
+    route: InstructorRoutes,
   },
 ];
 

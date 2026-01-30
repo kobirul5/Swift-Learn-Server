@@ -97,10 +97,9 @@ const verifyEmailOtp = asyncHandler(async (req: Request, res: Response) => {
 })
 
 const resetPassword = asyncHandler(async (req: Request, res: Response) => {
-
-    const userId = (req as any).user._id; // Assuming auth middleware attaches user
-
-    const result = await AuthServices.resetPassword({ userId, ...req.body });
+    // Reset password after OTP verification - no auth required
+    // Email should be provided in the request body
+    const result = await AuthServices.resetPassword(req.body);
     sendResponse(res, {
         statusCode: 200,
         success: true,
