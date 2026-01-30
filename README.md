@@ -145,8 +145,8 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/swift-learn-server.git
-cd swift-learn-server
+git clone https://github.com/kobirul5/Swift-Learn-Server.git
+cd Swift-Learn-Server
 ```
 
 ### 2. Install Dependencies
@@ -226,7 +226,7 @@ STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
 
 # Frontend URLs (for CORS)
 FRONTEND_URL=http://localhost:3000
-FRONTEND_URL_PRODUCTION=https://your-production-domain.com
+FRONTEND_URL_PRODUCTION= https://swift-learn-nu.vercel.app
 
 # Optional: Vercel Configuration (if deploying to Vercel)
 VERCEL_OIDC_TOKEN=your-vercel-token
@@ -332,7 +332,7 @@ module-name/
 
 ```
 Development: http://localhost:5000/api/v1
-Production: https://your-domain.com/api/v1
+Production: https://swift-learn-server-topaz.vercel.app/api/v1
 ```
 
 ### 📖 Postman Collection
@@ -788,40 +788,7 @@ The `vercel.json` file is already configured:
 }
 ```
 
-### Railway Deployment
 
-Alternative deployment option.
-
-1. **Create Railway account**
-2. **Connect GitHub repository**
-3. **Add environment variables**
-4. **Deploy automatically on push**
-
-### Traditional VPS Deployment
-
-For deployment on VPS (DigitalOcean, AWS EC2, etc.):
-
-1. **Install Node.js and MongoDB**
-2. **Clone repository**
-3. **Install dependencies**
-   ```bash
-   npm install --production
-   ```
-4. **Build project**
-   ```bash
-   npm run build
-   ```
-5. **Set up PM2 for process management**
-   ```bash
-   npm install -g pm2
-   pm2 start dist/server.js --name swift-learn-api
-   pm2 save
-   pm2 startup
-   ```
-6. **Set up Nginx as reverse proxy**
-7. **Configure SSL with Let's Encrypt**
-
----
 
 ## 🔒 Security Best Practices
 
@@ -836,16 +803,6 @@ For deployment on VPS (DigitalOcean, AWS EC2, etc.):
 ✅ **Error Handling** - No sensitive data in error messages  
 ✅ **Mongoose Injection Prevention** - Built-in protection  
 
-### Recommended Additional Measures
-
-⚠️ **Rate Limiting** - Implement with `express-rate-limit`  
-⚠️ **Helmet.js** - Add security headers  
-⚠️ **HTTPS Only** - Enforce in production  
-⚠️ **Request Size Limits** - Prevent DoS attacks  
-⚠️ **SQL Injection** - Already prevented by Mongoose  
-⚠️ **XSS Protection** - Sanitize user inputs  
-
----
 
 ## 🤝 Contributing
 
@@ -895,7 +852,7 @@ This project is licensed under the **ISC License**.
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [GitHub Profile](https://github.com/yourusername)
+- **Md. Kobirul Islam** - *Initial work* - [GitHub Profile](https://github.com/kobirul5)
 
 ---
 
@@ -909,40 +866,13 @@ This project is licensed under the **ISC License**.
 
 ---
 
-## 📞 Support
 
-For support, email support@swiftlearn.com or join our Slack channel.
 
----
 
-## 🗺️ Roadmap
-
-### Current Version (v1.0.0)
-- ✅ User authentication and authorization
-- ✅ Course management
-- ✅ Payment processing with Stripe
-- ✅ File uploads with Cloudinary
-- ✅ Email notifications
-
-### Upcoming Features (v1.1.0)
-- 🔄 Real-time chat with Socket.io
-- 🔄 Course reviews and ratings
-- 🔄 Certificate generation
-- 🔄 Advanced analytics dashboard
-- 🔄 Video streaming optimization
-
-### Future Enhancements (v2.0.0)
-- 📅 Live class scheduling
-- 📅 Assignment submissions
-- 📅 Quiz and assessment system
-- 📅 Discussion forums
-- 📅 Mobile app API support
-
----
 
 <div align="center">
 
-**Made with ❤️ by the Swift-Learn Team**
+**Made with ❤️ by the Md. Kobirul Islam**
 
 [⬆ Back to Top](#swift-learn-server)
 
