@@ -2,9 +2,26 @@ import { Request, Response } from 'express';
 import { asyncHandler } from '../../utils/asyncHandler';
 import sendResponse from '../../../shared/sendResponse';
 import { InstructorServices } from './instructor.service';
+import { fileUploader } from '../../../helpers/fileUploader';
 
 const createInstructor = asyncHandler(async (req: Request, res: Response) => {
-  const result = await InstructorServices.createInstructor(req.body);
+  let payload;
+  if (req.body.data) {
+    try {
+      payload = JSON.parse(req.body.data);
+    } catch (error) {
+       payload = req.body;
+    }
+  } else {
+    payload = req.body;
+  }
+
+  if (req.file) {
+    const uploadResult = await fileUploader.uploadToCloudinary(req.file);
+    payload.image = uploadResult.Location;
+  }
+
+  const result = await InstructorServices.createInstructor(payload);
   sendResponse(res, {
     statusCode: 201,
     success: true,
@@ -44,7 +61,23 @@ const getSingleInstructor = asyncHandler(async (req: Request, res: Response) => 
 });
 
 const updateInstructor = asyncHandler(async (req: Request, res: Response) => {
-  const result = await InstructorServices.updateInstructor(req.params.id, req.body);
+  let payload;
+  if (req.body.data) {
+     try {
+      payload = JSON.parse(req.body.data);
+    } catch (error) {
+       payload = req.body;
+    }
+  } else {
+    payload = req.body;
+  }
+
+  if (req.file) {
+    const uploadResult = await fileUploader.uploadToCloudinary(req.file);
+    payload.image = uploadResult.Location;
+  }
+
+  const result = await InstructorServices.updateInstructor(req.params.id, payload);
   sendResponse(res, {
     statusCode: 200,
     success: true,
