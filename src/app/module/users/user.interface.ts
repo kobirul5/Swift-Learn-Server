@@ -6,6 +6,10 @@ export interface IUser extends Document {
   password: string;
   image?: string;
   education?: string;
+  bio?: string;
+  address?: string;
+  phone?: string;
+  additionalInfo?: string;
   role: 'admin' | 'student' | 'user';
   otp?: number;
   status?: 'active' | 'inactive' | 'banned' | 'deleted';
