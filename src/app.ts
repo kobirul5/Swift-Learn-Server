@@ -11,11 +11,9 @@ const app: Application = express()
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://swift-learn-nu.vercel.app',
-    'https://swift-learn-production.up.railway.app',
-    'https://swift-learn1.vercel.app',
     'https://swift-learn-nu.vercel.app'
   ],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true
 }))
 app.post('/webhook/stripe', express.raw({ type: 'application/json' }), paymentController.confirmationPayment)

@@ -8,6 +8,11 @@ const courseSchema = new Schema<ICourse>(
     price: { type: Number, required: true },
     thumbnail: { type: String, required: true },
     isFeatured: { type: Boolean, required: true, default: false },
+    category: { 
+      type: String, 
+      enum: ['Web Development', 'Data Science', 'Mobile Apps', 'Programming', 'Business'],
+      required: true 
+    },
     modules: [
       {
         type: Schema.Types.ObjectId,
