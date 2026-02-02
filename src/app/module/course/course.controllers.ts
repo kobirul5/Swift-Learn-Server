@@ -7,6 +7,7 @@ import {
   getCourseByIdService,
   deleteCourseByIdService,
   updateCourseByIdService,
+  getAllFeaturedCourseService,
 } from "./course.service";
 
 const createCourse = asyncHandler(async (req: Request, res: Response) => {
@@ -86,10 +87,21 @@ const updateCourseById = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
+const getAllFeaturedCourses = asyncHandler(async (req: Request, res: Response) => {
+  const result = await getAllFeaturedCourseService();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Featured courses retrieved successfully",
+    data: result,
+  });
+});
+
 export {
   getAllCourse,
   createCourse,
   getCourseById,
   deleteCourseById,
   updateCourseById,
+  getAllFeaturedCourses,
 };

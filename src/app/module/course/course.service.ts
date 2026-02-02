@@ -111,10 +111,16 @@ const updateCourseByIdService = async (id: string, updatedData: ICourse, file?: 
   return updatedCourse;
 };
 
+const getAllFeaturedCourseService = async () => {
+  const data = await Course.find({ isFeatured: true }).sort({ updatedAt: -1 }).limit(5);
+  return data;
+};
+
 export {
   createCourseService,
   getAllCourseService,
   getCourseByIdService,
   deleteCourseByIdService,
   updateCourseByIdService,
+  getAllFeaturedCourseService,
 };
