@@ -11,6 +11,7 @@ import { TestimonialRoutes } from "../app/module/testimonial/testimonial.router"
 import { courseRouter } from "../app/module/course/course.router";
 import { enrollmentRouter } from "../app/module/enrollment/enrollment.router";
 import { InstructorRoutes } from "../app/module/instructor/instructor.router";
+import { MetaRoutes } from "../app/module/meta/meta.router";
 
 const router = express.Router();
 
@@ -62,6 +63,10 @@ const moduleRoutes = [
   {
     path: "/instructors",
     route: InstructorRoutes,
+  },
+  {
+    path: "/meta",
+    route: MetaRoutes,
   },
 ];
 
