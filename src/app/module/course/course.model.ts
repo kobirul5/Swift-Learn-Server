@@ -13,6 +13,10 @@ const courseSchema = new Schema<ICourse>(
       enum: ['Web Development', 'Data Science', 'Mobile Apps', 'Programming', 'Business'],
       required: true 
     },
+    avgRating: {
+      type: Number,
+      default: 0
+    },
     modules: [
       {
         type: Schema.Types.ObjectId,

@@ -9,6 +9,7 @@ export interface ICourse {
   thumbnail?: string;
   isFeatured?: boolean;
   category: ICategory;
+  avgRating: number;
   modules: mongoose.Types.ObjectId[];
 }
 
