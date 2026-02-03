@@ -57,4 +57,14 @@ const updateMe = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-export const userController = { getAllUsers, getUserById, getMe, updateMe };
+const getAdmins = asyncHandler(async (req: Request, res: Response) => {
+  const result = await userService.getAdminsService();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Admins retrieved successfully",
+    data: result,
+  });
+});
+
+export const userController = { getAllUsers, getUserById, getMe, updateMe, getAdmins };
