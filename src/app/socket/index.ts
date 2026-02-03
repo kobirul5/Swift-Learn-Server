@@ -18,7 +18,6 @@ export function setupWebSocket(server: Server) {
 
   wss.on("connection", (ws: ExtendedWebSocket, req) => {
     console.log("A user connected");
-    console.log("Handshake headers:", JSON.stringify(req.headers)); 
 
     const addUserSocket = (userId: string, socket: ExtendedWebSocket) => {
         if (!userSockets.has(userId)) {
@@ -52,7 +51,7 @@ export function setupWebSocket(server: Server) {
     // Authenticate via Cookie
     const rawCookies = req.headers.cookie;
     if (rawCookies) {
-      console.log("Raw cookies:----------------------------------", rawCookies);
+
       
       // Robust cookie parsing
       const parsedCookies = rawCookies.split(';').reduce((acc, cookie) => {
@@ -104,7 +103,6 @@ export function setupWebSocket(server: Server) {
     ws.on("message", async (data: string) => {
       try {
         const parsedData = JSON.parse(data);
-        console.log("Parsed data", parsedData);
         switch (parsedData.event) {
           case "authenticate": {
             console.log("Authenticating...");
