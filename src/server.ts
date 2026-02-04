@@ -3,12 +3,13 @@ import { Server } from "http";
 import "dotenv/config";
 import mongoose from "mongoose";
 import app from "./app";
+import { setupWebSocket } from "./app/socket";
 
 const port = process.env.PORT || 5000;
 
 const uri = process.env.MONGODB_URI as string;
 
-let server: Server;
+export let server: Server;
 
 /**
  * Graceful shutdown handler
@@ -64,6 +65,9 @@ async function main() {
       console.log(`Server listening on port ${port}`);
       console.log(`Server Local link : http://localhost:${port}`);
     });
+
+    // Initialize WebSocket
+    setupWebSocket(server);
   } catch (error) {
     console.error("Startup failed:", error);
     console.log("Shutting down due to startup failure.");

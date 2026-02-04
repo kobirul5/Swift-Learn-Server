@@ -35,4 +35,9 @@ const updateMeService = async (userId: string, payload: Partial<any>, file?: any
   return result;
 }
 
-export const userService = { getMeService, getUserByIdService, getAllUsersService, updateMeService };
+const getAdminsService = async () => {
+  const admins = await User.find({ role: "admin" }).select("-password -otp -otpExpiresAt -isVerifyEmail ");
+  return admins;
+};
+
+export const userService = { getMeService, getUserByIdService, getAllUsersService, updateMeService, getAdminsService };
