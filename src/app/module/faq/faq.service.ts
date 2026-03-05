@@ -6,9 +6,11 @@ const createFaq = async (payload: IFaq) => {
     return result;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-inferrable-types
 const getAllFaqs = async (page: number = 1, limit: number = 10, searchTerm?: string) => {
     const skip = (page - 1) * limit;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const query: any = {};
 
     if (searchTerm) {

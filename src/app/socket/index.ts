@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Server } from "http";
 import { WebSocket, WebSocketServer } from "ws";
 import config from "../../envs";

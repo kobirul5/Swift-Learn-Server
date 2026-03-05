@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Payment } from "./payment.model";
 import { Enrollment } from "../enrollment/enrollment.model";
 import stripe from "../../../shared/stripe";

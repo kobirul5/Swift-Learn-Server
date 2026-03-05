@@ -9,6 +9,7 @@ const getAdminDashboardStats = async (req: Request, res: Response) => {
             message: 'Admin dashboard stats fetched successfully',
             data: stats
         });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         res.status(500).json({
             success: false,

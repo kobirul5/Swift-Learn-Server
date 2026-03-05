@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { TestimonialService } from "./testimonial.service";
 import { asyncHandler } from "../../utils/asyncHandler";

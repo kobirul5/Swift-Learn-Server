@@ -18,6 +18,7 @@ const getAllInstructors = async (query: QueryParams) => {
   const { page = 1, limit = 10, search, expertise } = query;
   
   // Build filter object
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filter: any = {};
   
   // Search by name or designation

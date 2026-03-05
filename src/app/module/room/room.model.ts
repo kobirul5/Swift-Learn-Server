@@ -1,4 +1,4 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 const roomSchema = new Schema({
   participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],

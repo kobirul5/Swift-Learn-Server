@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ZodError, ZodIssue } from 'zod';
-// import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 
 const handleZodError = (err: ZodError): any => {
   const errorSources: any = err.issues.map((issue: ZodIssue) => {

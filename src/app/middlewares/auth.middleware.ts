@@ -13,6 +13,7 @@ interface ITokenPayload extends JwtPayload {
 
 // Role-aware middleware factory. Use `checauth()` for generic auth or `checauth('admin')` for role checks.
 export const checkAuth = (...roles: string[]) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     try {
       const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");

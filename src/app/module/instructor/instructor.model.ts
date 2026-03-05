@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import  { Schema, model } from 'mongoose';
 import { IInstructor } from './instructor.interface';
 
 const instructorSchema = new Schema<IInstructor>(

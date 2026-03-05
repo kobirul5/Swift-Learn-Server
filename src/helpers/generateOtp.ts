@@ -1,4 +1,5 @@
-export const generateOtp = (length: number = 4): number => {
+type OtpLength = 4 
+export const generateOtp = (length: OtpLength): number => {
     const min = Math.pow(10, length - 1);
     const max = Math.pow(10, length) - 1;
     return Math.floor(min + Math.random() * (max - min + 1));

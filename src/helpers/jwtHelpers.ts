@@ -2,6 +2,7 @@ import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 
 const generateToken = (payload: object, secret: Secret, expiresIn: string) => {
     const token = jwt.sign(payload, secret, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         expiresIn: expiresIn as any,
     });
     return token;

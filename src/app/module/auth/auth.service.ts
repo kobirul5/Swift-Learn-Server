@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApiError } from "../../utils/ApiError";
 import { User } from "../users/user.model";
 import { generateOtp } from "../../../helpers/generateOtp";
@@ -220,6 +221,7 @@ const resetPassword = async (payload: { password: string; email: string }) => {
   return { message: "Password reset successfully" };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const changePassword = async (userId: string, payload: any) => {
   const { oldPassword, newPassword } = payload;
 

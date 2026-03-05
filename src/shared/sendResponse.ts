@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response } from "express";
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type IApiResponse<T> = {
   statusCode: number;
   success: boolean;

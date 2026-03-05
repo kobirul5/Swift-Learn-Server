@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ITestimonial } from "./testimonial.interface";
 import { Testimonial } from "./testimonial.model";
 
@@ -6,6 +7,7 @@ const createTestimonial = async (payload: ITestimonial) => {
     return result;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-inferrable-types
 const getAllTestimonials = async (page: number = 1, limit: number = 10, searchTerm?: string) => {
     const skip = (page - 1) * limit;
 
