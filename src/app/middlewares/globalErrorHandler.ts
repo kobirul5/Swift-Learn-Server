@@ -102,6 +102,7 @@ const GlobalErrorHandler = (
   res.status(statusCode).json({
     success: false,
     message,
+    data: err.data || null,
     errorSources,
     stack: envConfig.NODE_ENV === "development" ? err?.stack : undefined,
   });

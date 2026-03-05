@@ -1,6 +1,6 @@
 class ApiError extends Error {
   statusCode: number;
-  data: null;
+  data: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors: any[];
 
@@ -9,12 +9,13 @@ class ApiError extends Error {
     message = "Something Went Wrong",
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     errors: any[] = [],
+    data: any = null,
     stack = ""
   ) {
     super(message);
 
     this.statusCode = statusCode;
-    this.data = null;
+    this.data = data;
     this.errors = errors;
 
     if (stack) {
@@ -26,4 +27,4 @@ class ApiError extends Error {
 }
 
 
-export {ApiError}
+export { ApiError }

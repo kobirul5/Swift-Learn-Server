@@ -29,7 +29,7 @@ export const checkAuth = (...roles: string[]) => {
       }
 
       if (!user.isVerifyEmail) {
-        return next(new ApiError(401, "Please verify your email!"));
+        return next(new ApiError(401, "Please verify your email!", [], { email: user.email }));
       }
 
       if (roles.length && !roles.includes(user.role)) {
