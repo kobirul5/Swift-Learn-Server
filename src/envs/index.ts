@@ -20,5 +20,8 @@ export default {
     smtp_port: process.env.SMTP_PORT,
     smtp_user: process.env.SMTP_USER,
     smtp_pass: process.env.SMTP_PASS,
+    brevo_api_key: process.env.BREVO_API_KEY,
+    brevo_email: process.env.BREVO_EMAIL,
+    brevo_sender_name: process.env.BREVO_SENDER_NAME,
   },
 };

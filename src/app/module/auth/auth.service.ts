@@ -2,9 +2,9 @@
 import { ApiError } from "../../utils/ApiError";
 import { User } from "../users/user.model";
 import { generateOtp } from "../../../helpers/generateOtp";
-import emailSender from "../../../helpers/emailSender";
 import { registrationOtpTemplate } from "../../../helpers/template/registrationOtpTemplate";
 import { forgotPasswordTemplate } from "../../../helpers/template/forgotPasswordTemplate";
+import emailSender from "../../../helpers/brevoMailSender";
 
 const generateAccessToken = async (userId: string) => {
   try {
@@ -62,9 +62,10 @@ const createUserIntoDb = async (payload: any) => {
   });
 
   try {
+    const html = registrationOtpTemplate(otp);
     await emailSender(
       newUser.email,
-      registrationOtpTemplate(otp),
+      html,
       "User Email Verification OTP"
     );
   } catch (error) {
@@ -101,9 +102,10 @@ const loginUser = async (payload: { email: string; password: string }) => {
     });
 
     try {
+      const html = registrationOtpTemplate(otp);
       await emailSender(
         user.email,
-        registrationOtpTemplate(otp),
+        html,
         "User Email Verification OTP"
       );
     } catch (error) {

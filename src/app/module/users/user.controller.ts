@@ -29,6 +29,7 @@ const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
 
 const getMe = asyncHandler(async (req: Request, res: Response) => {
   const userId = (req as any).user.id || (req as any).user._id;
+  console.log(userId);
   const result = await userService.getMeService(userId);
   sendResponse(res, {
     statusCode: 200,
