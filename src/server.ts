@@ -11,9 +11,7 @@ const uri = process.env.MONGODB_URI as string;
 
 export let server: Server;
 
-/**
- * Graceful shutdown handler
- */
+
 const exitHandler = async (type: string, error?: unknown) => {
   if (error) {
     console.error(type, error);

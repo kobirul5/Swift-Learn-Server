@@ -226,7 +226,7 @@ STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
 
 # Frontend URLs (for CORS)
 FRONTEND_URL=http://localhost:3000
-FRONTEND_URL_PRODUCTION= https://swift-learn-nu.vercel.app
+FRONTEND_URL_PRODUCTION= https://swift-learn.onrender.com
 
 # Optional: Vercel Configuration (if deploying to Vercel)
 VERCEL_OIDC_TOKEN=your-vercel-token

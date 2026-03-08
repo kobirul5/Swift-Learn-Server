@@ -11,21 +11,21 @@ const app: Application = express()
 // app.use(cors({
 //   origin: [
 //     'http://localhost:3000',
-//     'https://swift-learn-nu.vercel.app',
-//     "https://swift-learn-nu.vercel.app"
+//     'https://swift-learn.onrender.com',
+//     "https://swift-learn.onrender.com"
 //   ],
 //   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 //   credentials: true
 // }))
 
 app.use(cors({
-    origin: function (origin, callback) {
-      callback(null, true); // Allow all origins
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "*"],
-  }))
+  origin: function (origin, callback) {
+    callback(null, true); // Allow all origins
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "*"],
+}))
 app.post('/webhook/stripe', express.raw({ type: 'application/json' }), paymentController.confirmationPayment)
 app.use(express.json())
 app.use(cookieParser())
