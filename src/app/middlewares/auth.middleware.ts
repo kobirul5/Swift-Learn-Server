@@ -16,7 +16,7 @@ export const checkAuth = (...roles: string[]) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     try {
-      const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+      const token = req.header("Authorization")?.replace("Bearer ", "") || req.cookies?.accessToken;
       if (!token) {
         return next(new ApiError(401, "You are not authorized!"));
       }
