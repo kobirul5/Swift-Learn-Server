@@ -33,6 +33,6 @@ router.post("/email-verify-otp", AuthController.verifyEmailOtp);
 //resend-otp
 router.post("/resend-otp", AuthController.resendOtp);
 
-router.post("/logout", checkAuth(), AuthController.logoutUser);
+router.post("/logout", AuthController.logoutUser);
 
 export const AuthRoutes = router;

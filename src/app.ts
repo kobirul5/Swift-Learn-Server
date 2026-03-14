@@ -8,16 +8,7 @@ import { paymentController } from "./app/module/payment/payment.controller";
 
 const app: Application = express()
 
-// app.use(cors({
-//   origin: [
-//     'http://localhost:3000',
-//     'https://swift-learn.onrender.com',
-//     "https://swift-learn.onrender.com"
-//   ],
-//   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-//   credentials: true
-// }))
-
+ 
 app.use(cors({
   origin: function (origin, callback) {
     callback(null, true); // Allow all origins
