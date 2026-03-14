@@ -45,7 +45,7 @@ const createUserIntoDb = async (payload: any) => {
   }
 
   // User model handles password hashing in pre-save hook
-  const newUser = await User.create({ email, password, ...userData });
+  const newUser = await User.create({ email, password, ...userData, role: "student" });
 
   if (!newUser) {
     throw new ApiError(400, "Failed to create user");

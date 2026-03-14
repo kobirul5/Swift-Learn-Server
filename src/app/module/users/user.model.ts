@@ -15,7 +15,7 @@ const userSchema = new Schema<IUser>(
     additionalInfo: { type: String, default: "" },
     phone: { type: String, default: "" },
     status: { type: String, enum: ['active', 'inactive', 'banned', 'deleted'], default: 'active' },
-    role: { type: String, enum: ['admin', 'student', 'user'], default: 'user' },
+    role: { type: String, enum: ['admin', 'student'], default: 'student' },
     otp: { type: Number, default: 0 },
     otpExpiresAt: { type: Date, default: null },
     isVerifyEmail: { type: Boolean, default: false },
