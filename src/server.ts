@@ -4,8 +4,10 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import app from "./app";
 import { setupWebSocket } from "./app/socket";
+import { initializeKeepAlive } from "./helpers/keepAlive";
 
 const port = process.env.PORT || 5000;
+const backendUrl = process.env.BACKEND_URL || "https://swift-learn.onrender.com";
 
 const uri = process.env.MONGODB_URI as string;
 
@@ -66,6 +68,9 @@ async function main() {
 
     // Initialize WebSocket
     setupWebSocket(server);
+
+    // Initialize Keep-Alive
+    initializeKeepAlive(backendUrl, 5);
   } catch (error) {
     console.error("Startup failed:", error);
     console.log("Shutting down due to startup failure.");
