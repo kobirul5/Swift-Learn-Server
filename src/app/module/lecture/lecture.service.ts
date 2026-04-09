@@ -56,9 +56,39 @@ const getSingleLecture = async (id: string) => {
   return result;
 };
 
-const updateLectureIsLocked = async (id: string) => {
-  console.log(id);
-  const result = await Lecture.findByIdAndUpdate(id, { isLocked: false }, { new: true });
+const updateLectureService = async (id: string, payload: any, file?: Express.Multer.File) => {
+  const lecture = await Lecture.findById(id);
+  if (!lecture) {
+    throw new ApiError(404, 'Lecture not found');
+  }
+
+  let parsedPayload = payload;
+  if (payload?.data) {
+    try {
+      parsedPayload = JSON.parse(payload.data);
+    } catch (error) {
+      throw new ApiError(400, 'Invalid lecture data payload');
+    }
+  }
+
+  const updateData: Record<string, any> = {};
+
+  if (parsedPayload?.title !== undefined) updateData.title = parsedPayload.title;
+  if (parsedPayload?.notes !== undefined) updateData.notes = parsedPayload.notes;
+  if (parsedPayload?.isLocked !== undefined) updateData.isLocked = parsedPayload.isLocked;
+
+  if (file) {
+    const uploadResult = await fileUploader.uploadToCloudinary(file);
+    updateData.videoUrl = uploadResult.Location;
+  } else if (parsedPayload?.videoUrl !== undefined) {
+    updateData.videoUrl = parsedPayload.videoUrl;
+  }
+
+  const result = await Lecture.findByIdAndUpdate(id, updateData, { new: true });
+  if (!result) {
+    throw new ApiError(404, 'Lecture not found');
+  }
+
   return result;
 }
 
@@ -68,5 +98,5 @@ export const lectureService = {
   getAllLectureService,
   deleteLectureService,
   getSingleLecture,
-  updateLectureIsLocked
+  updateLectureService
 };

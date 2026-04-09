@@ -54,10 +54,17 @@ const getSingleLecture = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-const updateLectureIsLocked = asyncHandler(async (req: Request, res: Response) => {
-  const id = req.params.id;
-  console.log(id);
-  const result = await lectureService.updateLectureIsLocked(id);
+const updateLecture = asyncHandler(async (req: Request, res: Response) => {
+  let lectureData = req.body;
+  if (req.body.data) {
+    try {
+      lectureData = JSON.parse(req.body.data);
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+    }
+  }
+
+  const result = await lectureService.updateLectureService(req.params.id, lectureData, req.file);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -71,5 +78,5 @@ export const lectureController = {
   getAllLecture,
   deleteLecture,
   getSingleLecture,
-  updateLectureIsLocked
+  updateLecture
 };

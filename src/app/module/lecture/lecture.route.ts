@@ -9,7 +9,7 @@ export const route = express.Router()
 route.post('/', checkAuth('admin'), fileUploader.uploadFile,    lectureController.createLecture)
 route.get('/:id', lectureController.getAllLecture)
 route.get('/single/:id', lectureController.getSingleLecture)
-route.patch('/:id', checkAuth(), lectureController.updateLectureIsLocked)
+route.patch('/:id', checkAuth('admin'), fileUploader.uploadFile, lectureController.updateLecture)
 route.delete('/:id', checkAuth('admin'),lectureController.deleteLecture)
 
 
