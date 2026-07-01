@@ -31,7 +31,9 @@ const updateProfile = upload.fields([
 ]);
 
 /**
- * Upload file to Cloudinary using buffer stream
+ * Upload file to Cloudinary using buffer stream.
+ * NOTE: upload_stream cannot auto-detect filename from a buffer,
+ * so we explicitly set a unique public_id using the original filename + timestamp.
  */
 const uploadToCloudinary = async (
   file: Express.Multer.File
@@ -40,13 +42,20 @@ const uploadToCloudinary = async (
     throw new Error("File is required for uploading.");
   }
 
+  // Build a unique public_id: sanitized original name + timestamp
+  const originalName = file.originalname
+    .replace(/\.[^/.]+$/, "")          // remove extension
+    .replace(/[^a-zA-Z0-9_-]/g, "_")  // replace special chars with _
+    .substring(0, 60);                  // limit length
+
+  const uniquePublicId = `${originalName}_${Date.now()}`;
+
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: "swiftLearn",
         resource_type: "auto",
-        use_filename: true,
-        unique_filename: false,
+        public_id: uniquePublicId,       // explicit unique name per upload
       },
       (error, result) => {
         if (error) {
